@@ -1,10 +1,8 @@
 
 package com.wanyos.bd;
 
-import com.mysql.cj.protocol.Resultset;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -94,6 +92,27 @@ public class Conexion {
     }
     
     
+    /**
+     * Devuelve listado con los nombresd e las bases de datos
+     * @return 
+     */
+    public List<String> getNombresBd() {
+        List<String> nombres_bd = new ArrayList<>();
+        Connection c;
+        ResultSet rs;
+        try {
+            c = this.getConexionMysql();
+            rs = c.getMetaData().getCatalogs();
+            while (rs.next()) {
+                nombres_bd.add(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nombres_bd;
+    }
+    
+    
     public String createTable(String nombre_bd, String nombre_table, String campos) {
         String tabla_creada;
         Connection cnx = null;
@@ -143,42 +162,30 @@ public class Conexion {
         return tabla_eliminada;
     }
     
+    
     /**
-     * Se encesita algún dato que diferencie el nombre de la tabla
-     * Si solo se pone "%" devuelve más de 200 tablas
-     * @param cx_bd
+     * Crea listado nombres tablas base datos del parámetro
+     * @param nombre_bd
      * @return 
      */
-    public List<String> getNombresTablas(Connection cx_bd) {
+    public List<String> getNombresTablas(String nombre_bd) {
         List<String> nombres = new ArrayList<>();
+        Connection conexion;
+        PreparedStatement st;
+        ResultSet rs;
+        String sql;
         try {
-            DatabaseMetaData md = cx_bd.getMetaData();
-            ResultSet rs = md.getTables(null, null, "emt_%", null);
-            while(rs.next()){
-              nombres.add(rs.getString(3));
+            conexion = this.getConexionMysql();
+            sql = "show full tables from " + nombre_bd;
+            st = conexion.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                nombres.add(rs.getString(1));
             }
         } catch (SQLException ex) {
-           System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
         return nombres;
-    }
-    
-    public void getNombres(){
-        try {
-            Connection c = this.getConexionBd("cuadros_marzo2019");
-            PreparedStatement ps = null;
-            Resultset rs = null;
-            
-            ps = c.prepareStatement("SHOW TABLES LIKE 'emt_%'");
-            rs = (Resultset) ps.executeQuery();
-            while(rs != null){
-                System.out.println(rs.toString());
-                System.out.println();
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     
@@ -200,19 +207,20 @@ public class Conexion {
     }
     
     
-    public static void main(String [] args){
-        Conexion c = new Conexion();
-        c.getNombres();
-        //List<String> t = c.getNombresTablas(c.getConexionBd("cuadros_marzo2019"));
-//        String nombre_bd = "Nueva_base_datos";
-//        String nombre_tabla = "Nombres";
-//        String campos = "nombre varchar(45), apellidos varchar(45)";
-       // System.out.println(c.createBd(nombre_bd));
-       // System.out.println(c.createTable(nombre_bd, nombre_tabla, campos));
-        //System.out.println(c.deleteeBd(nombre_bd));
-        //System.out.println(c.deleteTable(nombre_bd, nombre_tabla));
-        System.out.println();
-    }
+//    public static void main(String [] args){
+//        Conexion c = new Conexion();
+//        //c.getNombres();
+//        List<String> t = c.getNombresTablas("cuadros_marzo2019");
+//        //List<String> bd = c.getNombresBd();
+////        String nombre_bd = "Nueva_base_datos";
+////        String nombre_tabla = "Nombres";
+////        String campos = "nombre varchar(45), apellidos varchar(45)";
+//       // System.out.println(c.createBd(nombre_bd));
+//       // System.out.println(c.createTable(nombre_bd, nombre_tabla, campos));
+//        //System.out.println(c.deleteeBd(nombre_bd));
+//        //System.out.println(c.deleteTable(nombre_bd, nombre_tabla));
+//        System.out.println();
+//    }
     
     
     

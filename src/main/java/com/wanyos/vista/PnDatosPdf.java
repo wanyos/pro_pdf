@@ -240,7 +240,7 @@ public class PnDatosPdf extends AbstractPanel {
     /**
      * Si está seleccionado se guardan los datos en base datos 
      */
-    private void listenerBd() {
+    protected void listenerBd() {
         ch_bd.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -272,17 +272,18 @@ public class PnDatosPdf extends AbstractPanel {
     
     
     /**
-     * Obtiene todos los paneles que no sean pn_datos
+     * Obtiene todos los paneles para actuar sobre los componentes y hacerlos visible o no
+     * Se hacen excepciones de paneles para que actuen de otra forma sobreescribiendo el listener de ch_bd
      * Los recoge de AbstractPanel 
      * @param b 
      */
-    private void getPnsAbstract(boolean b){
+    private void getPnsAbstract(boolean b) {
         List<JPanel> pns = super.getPns();
-        if(!pns.isEmpty()){
-            for(JPanel p: pns){
-               if(!p.getName().equalsIgnoreCase("pn_datos")){
-                   setVisiblePn(p, b);
-               }
+        if (!pns.isEmpty()) {
+            for (JPanel p : pns) {
+                if (!p.getName().equalsIgnoreCase("pn_datos") && !p.getName().equalsIgnoreCase("pn_cuadros1")) {
+                    setVisiblePn(p, b);
+                }
             }
         }
     }

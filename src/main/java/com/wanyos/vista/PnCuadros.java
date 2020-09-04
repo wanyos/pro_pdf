@@ -1,6 +1,10 @@
 
 package com.wanyos.vista;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.ButtonGroup;
+
 
 
 /**
@@ -11,6 +15,9 @@ public class PnCuadros extends PnDatosPdf {
     
     public PnCuadros() {
       initComponents();
+      this.setGroup();
+      this.setVisibleBD(false);
+      this.listenerBD();
       this.updateUI();
     }
 
@@ -23,6 +30,9 @@ public class PnCuadros extends PnDatosPdf {
         pn_cuadros = new javax.swing.JPanel();
         ch_sin_cabecera = new javax.swing.JCheckBox();
         ch_todos = new javax.swing.JCheckBox();
+        pn_cuadros1 = new javax.swing.JPanel();
+        rd_actualizar_bd = new javax.swing.JRadioButton();
+        rd_nueva_bd = new javax.swing.JRadioButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -67,8 +77,47 @@ public class PnCuadros extends PnDatosPdf {
         pn_cuadros.add(ch_todos);
 
         add(pn_cuadros);
+
+        pn_cuadros1.setBackground(new java.awt.Color(153, 153, 153));
+        pn_cuadros1.setMaximumSize(new java.awt.Dimension(500, 45));
+        pn_cuadros1.setMinimumSize(new java.awt.Dimension(500, 45));
+        pn_cuadros1.setName("pn_cuadros1"); // NOI18N
+        pn_cuadros1.setPreferredSize(new java.awt.Dimension(500, 45));
+        pn_cuadros1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 5));
+
+        rd_actualizar_bd.setBackground(new java.awt.Color(153, 153, 153));
+        rd_actualizar_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        rd_actualizar_bd.setForeground(new java.awt.Color(255, 255, 255));
+        rd_actualizar_bd.setText("Actualizar BD");
+        rd_actualizar_bd.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rd_actualizar_bdItemStateChanged(evt);
+            }
+        });
+        pn_cuadros1.add(rd_actualizar_bd);
+
+        rd_nueva_bd.setBackground(new java.awt.Color(153, 153, 153));
+        rd_nueva_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        rd_nueva_bd.setForeground(new java.awt.Color(255, 255, 255));
+        rd_nueva_bd.setText("Nueva BD");
+        rd_nueva_bd.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rd_nueva_bdItemStateChanged(evt);
+            }
+        });
+        pn_cuadros1.add(rd_nueva_bd);
+
+        add(pn_cuadros1);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void setGroup(){
+        ButtonGroup gr = new ButtonGroup();
+        gr.add(this.rd_actualizar_bd);
+        gr.add(this.rd_nueva_bd);
+        this.rd_actualizar_bd.setSelected(true);
+    }
+    
     /**
      * Recoge evento si cambia el check todos_archivos
      * @param evt 
@@ -95,6 +144,28 @@ public class PnCuadros extends PnDatosPdf {
             super.setSinCabecera(false);
         }       
     }//GEN-LAST:event_ch_sin_cabeceraItemStateChanged
+
+    private void rd_actualizar_bdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rd_actualizar_bdItemStateChanged
+        super.setNuevoActualizar(this.rd_actualizar_bd.isSelected());
+    }//GEN-LAST:event_rd_actualizar_bdItemStateChanged
+
+    private void rd_nueva_bdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rd_nueva_bdItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rd_nueva_bdItemStateChanged
+
+
+    protected void listenerBD(){
+        ch_bd.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (ch_bd.isSelected()) {
+                    setVisibleBD(true);
+                } else {
+                   setVisibleBD(false);
+                }
+            }
+        });
+    }
     
     
     /**
@@ -108,6 +179,12 @@ public class PnCuadros extends PnDatosPdf {
         super.getTxt_nombre_destino().setEnabled(b);
         super.getTxt_nombre_destino().setText("");
     }
+    
+    
+    private void setVisibleBD(boolean b){
+        this.rd_actualizar_bd.setVisible(b);
+        this.rd_nueva_bd.setVisible(b);
+    }
 
     
    
@@ -118,6 +195,9 @@ public class PnCuadros extends PnDatosPdf {
     private javax.swing.JCheckBox ch_todos;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JPanel pn_cuadros;
+    private javax.swing.JPanel pn_cuadros1;
+    private javax.swing.JRadioButton rd_actualizar_bd;
+    private javax.swing.JRadioButton rd_nueva_bd;
     // End of variables declaration//GEN-END:variables
 
 }

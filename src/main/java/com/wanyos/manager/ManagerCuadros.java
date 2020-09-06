@@ -97,7 +97,7 @@ public class ManagerCuadros extends ManagerPdf {
      * Devuelve un map de cuadros con su nombre y turnos, sin cabecera
      * @param ruta_pdf
      * @param nombre_pdf
-     * @return
+     * @return mapa con clave nombre de la tabla y valor un listado con todos los turnos
      */
     public Map<String, List<String>> getMapCuadro(String ruta_pdf, String nombre_pdf){
         lpdfc = new TratarPdfCuadros(ruta_pdf, nombre_pdf);

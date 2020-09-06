@@ -47,13 +47,20 @@ public class Init {
     
     
     /**
-     * Siempre se necesita la ruta del pdf a leer y la ruta del archivo de destino
+     * Siempre se necesita la ruta del pdf a leer y la ruta del archivo de destino pra archivos
+     * Para base de datos ruta pdf y nombre pdf 
      * @param pn_abs
      * @return 
      */
     private boolean comprobarRutas(AbstractPanel pn_abs) {
         try {
-            if (!pn_abs.getRutaPdf().exists()) {
+            if (pn_abs.getBaseDatos() && pn_abs.getRutaPdf().exists() && pn_abs.getRutaArchivoPdf().exists()) {
+                if (pn_abs.getArchivoNuevo() && (pn_abs.getNombreBD() == null || pn_abs.getNombreBD().length() <= 0)) {
+                    JOptionPane.showMessageDialog(pn_abs, "Error nombre base datos incorrecto... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    return true;
+                }
+            } else if (!pn_abs.getRutaPdf().exists()) {
                 JOptionPane.showMessageDialog(pn_abs, "Error en la ruta de pdf... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
             } else if (!pn_abs.getRutaDestino().exists()) {
                 JOptionPane.showMessageDialog(pn_abs, "Error en la ruta destino... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
@@ -88,13 +95,14 @@ public class Init {
      * @param nombre_pdf
      * @return 
      */
-    private String getNombreDestino(String nombre_destino, String nombre_pdf){
+    private String comprobarNombreDestino(String nombre_destino, String nombre_pdf){
         String nombre = "";
-        if(nombre_destino == null || nombre_destino.trim().length() == 0){
+        if(nombre_destino == null || nombre_destino.trim().length() == 0 || !nombre_destino.contains(".txt")){
             String sub = nombre_pdf.substring(0, nombre_pdf.length()-4);
             nombre = nombre.concat("nuevo_").concat(sub).concat(".txt");
+            return nombre;
         }
-        return nombre;
+        return nombre_destino;
     }
     
     
@@ -104,8 +112,8 @@ public class Init {
         //se gestionan archivos o base de datos
         if (name.equalsIgnoreCase("cuadros")) {
             if (bd) {
-                //base datos 
-                
+                //base datos
+              setCuadrosBD(pn_abs.getNombreBD());
             } else {
                 setCuadros(pn_abs);
             }
@@ -127,6 +135,14 @@ public class Init {
             }
         }
     }
+    
+    
+    private void setCuadrosBD(String nombre_bd){
+        //si nombre_bd == null hay que actualizar sino una nueva
+        if(nombre_bd != null){
+            System.out.println();
+        }
+    }
 
     
     /**
@@ -138,7 +154,7 @@ public class Init {
         boolean sin_cabecera;
         String ruta_pdf = pn_abstract.getRutaPdf().getAbsolutePath();
         String ruta_destino = pn_abstract.getRutaDestino().getAbsolutePath();
-        String nombre_archivo_pdf = null;
+        String nombre_archivo_pdf = "";
         String nombre_destino;
         String total_datos;
         boolean escrito;
@@ -155,7 +171,7 @@ public class Init {
                 JOptionPane.showMessageDialog(pn_abs, "El archivo pdf no existe... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
             } else {
                 //si el nombre destino es null o vacio, se crea uno
-                nombre_destino = this.getNombreDestino(pn_abstract.getNombreDestino(), nombre_archivo_pdf);
+                nombre_destino = comprobarNombreDestino(pn_abstract.getNombreDestino(), nombre_archivo_pdf);
                 sin_cabecera = pn_abstract.getSinCabecera();
                 mc.writeFileCuadro(ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino, sin_cabecera);
 
@@ -163,9 +179,9 @@ public class Init {
                 escrito = mc.getDatosEscritos();
 
                 if (escrito) {
-                    fi.setTxtMensaje("Fin del proceso de conversión cuadros...\n Se han escrito: " + total_datos + " lineas");
+                    fi.setTxtMensaje("Fin del proceso de conversión cuadros...\n Se han escrito: " + total_datos + "lineas\n");
                 } else {
-                    fi.setTxtMensaje("Fin del proceso de conversión cuadros...\n No se han escrito datos...");
+                    fi.setTxtMensaje("Fin del proceso de conversión cuadros...\n No se han escrito datos...\n");
                 }
 
                 eliminarPdfLeido(ruta_pdf, nombre_archivo_pdf);
@@ -183,7 +199,7 @@ public class Init {
         String ruta_pdf = pn_abstract.getRutaPdf().getAbsolutePath();
         String ruta_destino = pn_abstract.getRutaDestino().getAbsolutePath();
         String nombre_archivo_pdf;
-        String nombre_destino = null;
+        String nombre_destino = "";
         boolean archivo_nuevo;
         String total_datos;
         boolean escrito;
@@ -196,7 +212,7 @@ public class Init {
             archivo_nuevo = pn_abstract.getArchivoNuevo();
             //si archivo nuevo se necesita un nombre del archivo destino en caso que sea nulo o vacio
             if (archivo_nuevo) {
-                nombre_destino = this.getNombreDestino(pn_abstract.getNombreDestino(), nombre_archivo_pdf);
+                nombre_destino = comprobarNombreDestino(pn_abstract.getNombreDestino(), nombre_archivo_pdf);
             } else {
                 //al no ser un nuevo archivo es necesario que el archivo destino exista
                 File f = new File(ruta_destino + "\\" + nombre_destino);
@@ -210,7 +226,7 @@ public class Init {
             escrito = md.getDatosEscritos();
 
             if (escrito && archivo_nuevo) {
-                fi.setTxtMensaje("Fin del proceso de conversión dias generados...\n Se han escrito: " + total_datos + " lineas");
+                fi.setTxtMensaje("Fin del proceso de conversión dias generados...\n Se han escrito: " + total_datos + "lineas\n");
             } else if (escrito && !archivo_nuevo) {
                 List<String> diferencias = md.getDiferencias();
                 fi.setTxtMensaje("Fin del proceso de conversión dias generados...\n");
@@ -218,7 +234,7 @@ public class Init {
                     fi.setTxtMensaje(aux + "\n");
                 }
             } else {
-                fi.setTxtMensaje("Fin del proceso de conversión dias generados...\n No se han escrito datos...");
+                fi.setTxtMensaje("Fin del proceso de conversión dias generados...\n No se han escrito datos...\n");
             }
             eliminarPdfLeido(ruta_pdf, nombre_archivo_pdf);
         }
@@ -253,9 +269,9 @@ public class Init {
                 escrito = mm.getDatosEscritos();
 
                 if (escrito) {
-                    fi.setTxtMensaje("Fin del proceso de conversión minutos...\n Se han escrito: " + total_datos + " lineas");
+                    fi.setTxtMensaje("Fin del proceso de conversión minutos...\n Se han escrito: " + total_datos + "lineas\n");
                 } else {
-                    fi.setTxtMensaje("Fin del proceso de conversión minutos...\n No se han escrito datos...");
+                    fi.setTxtMensaje("Fin del proceso de conversión minutos...\n No se han escrito datos...\n");
                 }
                 eliminarPdfLeido(ruta_pdf, nombre_archivo_pdf);
             }

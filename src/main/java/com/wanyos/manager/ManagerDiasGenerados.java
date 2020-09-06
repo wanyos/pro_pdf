@@ -26,7 +26,7 @@ public class ManagerDiasGenerados extends ManagerPdf {
     public ManagerDiasGenerados(){}
 
     
-    //Estos métodos recogen los dtos después de escribir en el archivo
+    //Estos métodos recogen los datos después de escribir en el archivo
     //Estos datos están en la clase padre
     
     public String getTotalLineasEscritas() {
@@ -215,7 +215,7 @@ public class ManagerDiasGenerados extends ManagerPdf {
     
     
     /**
-     * Crea un nuevo nombre para un archivo nuevo
+     * Crea un nuevo nombre para un archivo nuevo que ya existe con ese nombre
      * En caso que exista aumenta el número de versión
      * @param ruta
      * @param nombre_archivo

@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 public class AbstractPanel extends JPanel {
     
     private File ruta_pdf, ruta_archivo_pdf, ruta_destino;
-    private String nombre_destino;
+    private String nombre_destino, nombre_bd;
     private boolean sin_cabecera, todos_archivos, nuevo, bd;
 
 
@@ -71,6 +71,10 @@ public class AbstractPanel extends JPanel {
         this.todos_archivos = todos_archivos;
     }
     
+    protected void setNuevaBD(String nombre_bd){
+        this.nombre_bd = nombre_bd;
+    }
+    
     
     
     // -------------------------------------------------------------------------------------------------------------------------
@@ -116,6 +120,10 @@ public class AbstractPanel extends JPanel {
 
     public boolean getBaseDatos(){
         return bd;
+    }
+    
+    public String getNombreBD(){
+        return this.nombre_bd;
     }
     
     

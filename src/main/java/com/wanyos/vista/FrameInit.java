@@ -71,7 +71,7 @@ public class FrameInit extends JFrame {
         pn_inf_izq = new javax.swing.JPanel();
         btn_ejecutar = new org.edisoncor.gui.button.ButtonAction();
         pn_inf_der = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         txt_mensaje = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -91,8 +91,9 @@ public class FrameInit extends JFrame {
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
         pn_sup.setBackground(new java.awt.Color(153, 153, 153));
-        pn_sup.setMaximumSize(new java.awt.Dimension(900, 60));
-        pn_sup.setPreferredSize(new java.awt.Dimension(900, 60));
+        pn_sup.setMaximumSize(new java.awt.Dimension(900, 50));
+        pn_sup.setMinimumSize(new java.awt.Dimension(438, 50));
+        pn_sup.setPreferredSize(new java.awt.Dimension(900, 50));
         pn_sup.setRequestFocusEnabled(false);
 
         btn_cuadros.setText("Cuadros");
@@ -164,8 +165,8 @@ public class FrameInit extends JFrame {
         getContentPane().add(pn_sep);
 
         pn_sub_sup.setBackground(new java.awt.Color(153, 153, 153));
-        pn_sub_sup.setMaximumSize(new java.awt.Dimension(900, 50));
-        pn_sub_sup.setPreferredSize(new java.awt.Dimension(900, 50));
+        pn_sub_sup.setMaximumSize(new java.awt.Dimension(900, 30));
+        pn_sub_sup.setPreferredSize(new java.awt.Dimension(900, 30));
         pn_sub_sup.setRequestFocusEnabled(false);
         pn_sub_sup.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 50, 5));
 
@@ -177,10 +178,11 @@ public class FrameInit extends JFrame {
         getContentPane().add(pn_sub_sup);
 
         pn_ctr.setBackground(new java.awt.Color(153, 153, 153));
+        pn_ctr.setPreferredSize(new java.awt.Dimension(900, 200));
         getContentPane().add(pn_ctr);
 
         pn_inf.setBackground(new java.awt.Color(153, 153, 153));
-        pn_inf.setPreferredSize(new java.awt.Dimension(900, 100));
+        pn_inf.setPreferredSize(new java.awt.Dimension(900, 80));
         pn_inf.setLayout(new javax.swing.BoxLayout(pn_inf, javax.swing.BoxLayout.X_AXIS));
 
         pn_inf_izq.setBackground(new java.awt.Color(153, 153, 153));
@@ -201,20 +203,14 @@ public class FrameInit extends JFrame {
         txt_mensaje.setEditable(false);
         txt_mensaje.setBackground(new java.awt.Color(153, 153, 153));
         txt_mensaje.setColumns(55);
-        txt_mensaje.setFont(new java.awt.Font("Monospaced", 1, 12)); // NOI18N
+        txt_mensaje.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
         txt_mensaje.setForeground(new java.awt.Color(255, 255, 255));
-        txt_mensaje.setLineWrap(true);
         txt_mensaje.setRows(6);
-        txt_mensaje.setBorder(null);
-        txt_mensaje.setDisabledTextColor(new java.awt.Color(153, 153, 153));
+        txt_mensaje.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         txt_mensaje.setEnabled(false);
-        txt_mensaje.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        txt_mensaje.setRequestFocusEnabled(false);
-        txt_mensaje.setSelectedTextColor(new java.awt.Color(153, 153, 153));
-        txt_mensaje.setSelectionColor(new java.awt.Color(153, 153, 153));
-        jScrollPane2.setViewportView(txt_mensaje);
+        jScrollPane1.setViewportView(txt_mensaje);
 
-        pn_inf_der.add(jScrollPane2);
+        pn_inf_der.add(jScrollPane1);
 
         pn_inf.add(pn_inf_der);
 
@@ -295,7 +291,7 @@ public class FrameInit extends JFrame {
     private org.edisoncor.gui.button.ButtonAction btn_generados;
     private org.edisoncor.gui.button.ButtonAction btn_minutos;
     private javax.swing.JButton btn_salir;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private org.edisoncor.gui.label.LabelMetric lbl_ventana;
     private javax.swing.JPanel pn_ctr;

@@ -61,7 +61,10 @@ public class PnGenerados extends PnDatosPdf {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rd_nuevoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rd_nuevoItemStateChanged
-       super.setNuevoActualizar(this.rd_nuevo.isSelected());
+       if(this.rd_nuevo.isSelected()){
+           super.setNuevoActualizar(true);
+           super.setNombreDestino(this.txt_nombre_destino.getText().trim());
+       }
     }//GEN-LAST:event_rd_nuevoItemStateChanged
 
 

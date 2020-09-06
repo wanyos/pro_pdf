@@ -66,6 +66,9 @@ public class PnDatosPdf extends AbstractPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pn_base_datos = new javax.swing.JPanel();
+        ch_bd = new javax.swing.JCheckBox();
+        jSeparator1 = new javax.swing.JSeparator();
         pn_datos = new javax.swing.JPanel();
         labelMetric1 = new org.edisoncor.gui.label.LabelMetric();
         btn_ruta_pdf = new org.edisoncor.gui.button.ButtonRect();
@@ -78,15 +81,33 @@ public class PnDatosPdf extends AbstractPanel {
         txt_ruta_destino = new org.edisoncor.gui.textField.TextField();
         lbl_destino = new org.edisoncor.gui.label.LabelMetric();
         txt_nombre_destino = new org.edisoncor.gui.textField.TextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        ch_bd = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(153, 153, 153));
-        setMaximumSize(new java.awt.Dimension(600, 200));
-        setMinimumSize(new java.awt.Dimension(600, 200));
-        setPreferredSize(new java.awt.Dimension(600, 200));
+        setMaximumSize(new java.awt.Dimension(550, 250));
+        setMinimumSize(new java.awt.Dimension(550, 250));
+        setPreferredSize(new java.awt.Dimension(550, 250));
         setRequestFocusEnabled(false);
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+
+        pn_base_datos.setBackground(new java.awt.Color(153, 153, 153));
+        pn_base_datos.setMaximumSize(new java.awt.Dimension(550, 40));
+        pn_base_datos.setMinimumSize(new java.awt.Dimension(550, 40));
+        pn_base_datos.setName("pn_base_datos"); // NOI18N
+        pn_base_datos.setPreferredSize(new java.awt.Dimension(550, 40));
+        pn_base_datos.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        ch_bd.setBackground(new java.awt.Color(153, 153, 153));
+        ch_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        ch_bd.setForeground(new java.awt.Color(255, 255, 255));
+        ch_bd.setText("Actualizar BD");
+        ch_bd.setContentAreaFilled(false);
+        pn_base_datos.add(ch_bd);
+
+        jSeparator1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jSeparator1.setPreferredSize(new java.awt.Dimension(110, 5));
+        pn_base_datos.add(jSeparator1);
+
+        add(pn_base_datos);
 
         pn_datos.setBackground(new java.awt.Color(153, 153, 153));
         pn_datos.setMaximumSize(new java.awt.Dimension(550, 130));
@@ -195,17 +216,6 @@ public class PnDatosPdf extends AbstractPanel {
         });
         pn_datos.add(txt_nombre_destino);
 
-        jSeparator1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jSeparator1.setPreferredSize(new java.awt.Dimension(110, 5));
-        pn_datos.add(jSeparator1);
-
-        ch_bd.setBackground(new java.awt.Color(153, 153, 153));
-        ch_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        ch_bd.setForeground(new java.awt.Color(255, 255, 255));
-        ch_bd.setText("Actualizar BD");
-        ch_bd.setContentAreaFilled(false);
-        pn_datos.add(ch_bd);
-
         add(pn_datos);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -281,7 +291,8 @@ public class PnDatosPdf extends AbstractPanel {
         List<JPanel> pns = super.getPns();
         if (!pns.isEmpty()) {
             for (JPanel p : pns) {
-                if (!p.getName().equalsIgnoreCase("pn_datos") && !p.getName().equalsIgnoreCase("pn_cuadros1")) {
+                if (!p.getName().equalsIgnoreCase("pn_datos") && !p.getName().equalsIgnoreCase("pn_cuadros1") &&
+                        !p.getName().equalsIgnoreCase("pn_base_datos")) {
                     setVisiblePn(p, b);
                 }
             }
@@ -363,6 +374,7 @@ public class PnDatosPdf extends AbstractPanel {
     private org.edisoncor.gui.label.LabelMetric labelMetric2;
     private org.edisoncor.gui.label.LabelMetric labelMetric3;
     private org.edisoncor.gui.label.LabelMetric lbl_destino;
+    private javax.swing.JPanel pn_base_datos;
     private javax.swing.JPanel pn_datos;
     protected org.edisoncor.gui.textField.TextField txt_nombre_destino;
     private org.edisoncor.gui.textField.TextField txt_nombre_pdf;

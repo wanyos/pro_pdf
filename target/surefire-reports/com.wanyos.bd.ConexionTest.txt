@@ -1,0 +1,84 @@
+-------------------------------------------------------------------------------
+Test set: com.wanyos.bd.ConexionTest
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 10, Errors: 0, Skipped: 0, Time elapsed: 1.697 sec <<< FAILURE!
+com.wanyos.bd.ConexionTest.testGetNombresTablas()  Time elapsed: 0.827 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <null> but was: <[]>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at com.wanyos.bd.ConexionTest.testGetNombresTablas(ConexionTest.java:131)
+
+com.wanyos.bd.ConexionTest.testGetConexionBd()  Time elapsed: 0.004 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <null> but was: <com.mysql.cj.jdbc.ConnectionImpl@6ca8564a>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at com.wanyos.bd.ConexionTest.testGetConexionBd(ConexionTest.java:32)
+
+com.wanyos.bd.ConexionTest.testGetConexionMysql()  Time elapsed: 0.005 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <null> but was: <com.mysql.cj.jdbc.ConnectionImpl@1725dc0f>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at com.wanyos.bd.ConexionTest.testGetConexionMysql(ConexionTest.java:45)
+
+com.wanyos.bd.ConexionTest.testStopServer()  Time elapsed: 0.01 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: The test case is a prototype.
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:39)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:109)
+	at com.wanyos.bd.ConexionTest.testStopServer(ConexionTest.java:152)
+
+com.wanyos.bd.ConexionTest.testDeleteTable()  Time elapsed: 0.024 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <> but was: <La tabla  no se ha eliminado de ...You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at com.wanyos.bd.ConexionTest.testDeleteTable(ConexionTest.java:117)
+
+com.wanyos.bd.ConexionTest.testInitServer()  Time elapsed: 0.01 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: The test case is a prototype.
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:39)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:109)
+	at com.wanyos.bd.ConexionTest.testInitServer(ConexionTest.java:142)
+
+com.wanyos.bd.ConexionTest.testCreateBd()  Time elapsed: 0.012 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <> but was: <Error base datos:  no se ha creado... >
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at com.wanyos.bd.ConexionTest.testCreateBd(ConexionTest.java:59)
+
+com.wanyos.bd.ConexionTest.testCreateTable()  Time elapsed: 0.006 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <> but was: <Error la tabla  no se ha creado en ...You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '()' at line 1>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at com.wanyos.bd.ConexionTest.testCreateTable(ConexionTest.java:102)
+
+com.wanyos.bd.ConexionTest.testGetNombresBd()  Time elapsed: 0.671 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <null> but was: <[cuadros_marzo2019, dias_generados_emt, information_schema, mysql, performance_schema, phpmyadmin, proyecto_jsp, prueba, total_servicios, usuarios]>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at com.wanyos.bd.ConexionTest.testGetNombresBd(ConexionTest.java:86)
+
+com.wanyos.bd.ConexionTest.testDeleteeBd()  Time elapsed: 0.125 sec  <<< FAILURE!
+java.lang.NullPointerException
+	at com.wanyos.bd.Conexion.deleteeBd(Conexion.java:85)
+	at com.wanyos.bd.ConexionTest.testDeleteeBd(ConexionTest.java:72)
+

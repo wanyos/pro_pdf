@@ -93,7 +93,7 @@ public class Conexion {
     
     
     /**
-     * Devuelve listado con los nombresd e las bases de datos
+     * Devuelve listado con los nombresd de las bases de datos
      * @return 
      */
     public List<String> getNombresBd() {

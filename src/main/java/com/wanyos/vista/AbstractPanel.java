@@ -91,19 +91,38 @@ public class AbstractPanel extends JPanel {
     // Métodos getters and setters
 
     public File getRutaPdf() {
+        if(ruta_pdf == null){
+           ruta_pdf = new File(""); 
+        }
         return ruta_pdf;
     }
 
     public File getRutaArchivoPdf() {
+        if(ruta_archivo_pdf == null){
+            ruta_archivo_pdf = new File("");
+        }
         return ruta_archivo_pdf;
     }
 
     public File getRutaDestino() {
+        if(ruta_destino == null){
+            ruta_destino = new File("");
+        }
         return ruta_destino;
     }
 
     public String getNombreDestino() {
+        if(nombre_destino == null){
+            nombre_destino = "";
+        }
         return this.nombre_destino;
+    }
+    
+    public String getNombreBD(){
+        if(nombre_bd == null){
+            nombre_bd = "";
+        }
+        return this.nombre_bd;
     }
     
     public boolean getSinCabecera(){
@@ -122,9 +141,7 @@ public class AbstractPanel extends JPanel {
         return bd;
     }
     
-    public String getNombreBD(){
-        return this.nombre_bd;
-    }
+    
     
     
     

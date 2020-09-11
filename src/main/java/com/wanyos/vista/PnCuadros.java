@@ -1,9 +1,11 @@
 
 package com.wanyos.vista;
 
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.ButtonGroup;
+import javax.swing.JTextField;
 
 
 
@@ -15,13 +17,20 @@ public class PnCuadros extends PnDatosPdf {
     
     public PnCuadros() {
       initComponents();
+      this.setColorCombo();
       this.setGroup();
       this.setVisibleBD(false);
       this.listenerBD();
       this.updateUI();
     }
-
-   
+    
+    
+    private void setColorCombo() {
+     ((JTextField) cbo_bases.getEditor().getEditorComponent()).setBackground(new Color(153,153,153));
+     ((JTextField) cbo_bases.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
+    }    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -32,8 +41,9 @@ public class PnCuadros extends PnDatosPdf {
         ch_todos = new javax.swing.JCheckBox();
         pn_cuadros1 = new javax.swing.JPanel();
         rd_actualizar_bd = new javax.swing.JRadioButton();
+        cbo_bases = new javax.swing.JComboBox<>();
+        separator2 = new javax.swing.JSeparator();
         rd_nueva_bd = new javax.swing.JRadioButton();
-        lbl_nombre_bd = new javax.swing.JLabel();
         txt_nombre_bd = new org.edisoncor.gui.textField.TextField();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
@@ -47,9 +57,9 @@ public class PnCuadros extends PnDatosPdf {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        setMaximumSize(new java.awt.Dimension(550, 300));
+        setMaximumSize(new java.awt.Dimension(700, 300));
         setMinimumSize(new java.awt.Dimension(550, 300));
-        setPreferredSize(new java.awt.Dimension(550, 300));
+        setPreferredSize(new java.awt.Dimension(700, 300));
 
         pn_cuadros.setBackground(new java.awt.Color(153, 153, 153));
         pn_cuadros.setMaximumSize(new java.awt.Dimension(550, 45));
@@ -85,11 +95,11 @@ public class PnCuadros extends PnDatosPdf {
         add(pn_cuadros);
 
         pn_cuadros1.setBackground(new java.awt.Color(153, 153, 153));
-        pn_cuadros1.setMaximumSize(new java.awt.Dimension(550, 45));
+        pn_cuadros1.setMaximumSize(new java.awt.Dimension(700, 45));
         pn_cuadros1.setMinimumSize(new java.awt.Dimension(500, 45));
         pn_cuadros1.setName("pn_cuadros1"); // NOI18N
-        pn_cuadros1.setPreferredSize(new java.awt.Dimension(550, 45));
-        pn_cuadros1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 5));
+        pn_cuadros1.setPreferredSize(new java.awt.Dimension(7000, 45));
+        pn_cuadros1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 
         rd_actualizar_bd.setBackground(new java.awt.Color(153, 153, 153));
         rd_actualizar_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -103,6 +113,19 @@ public class PnCuadros extends PnDatosPdf {
         });
         pn_cuadros1.add(rd_actualizar_bd);
 
+        cbo_bases.setBackground(new java.awt.Color(153, 153, 153));
+        cbo_bases.setEditable(true);
+        cbo_bases.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        cbo_bases.setForeground(new java.awt.Color(255, 255, 255));
+        cbo_bases.setMinimumSize(new java.awt.Dimension(100, 22));
+        cbo_bases.setOpaque(false);
+        cbo_bases.setPreferredSize(new java.awt.Dimension(180, 22));
+        pn_cuadros1.add(cbo_bases);
+
+        separator2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        separator2.setPreferredSize(new java.awt.Dimension(50, 5));
+        pn_cuadros1.add(separator2);
+
         rd_nueva_bd.setBackground(new java.awt.Color(153, 153, 153));
         rd_nueva_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         rd_nueva_bd.setForeground(new java.awt.Color(255, 255, 255));
@@ -114,11 +137,6 @@ public class PnCuadros extends PnDatosPdf {
             }
         });
         pn_cuadros1.add(rd_nueva_bd);
-
-        lbl_nombre_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        lbl_nombre_bd.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_nombre_bd.setText("Nombre BD");
-        pn_cuadros1.add(lbl_nombre_bd);
 
         txt_nombre_bd.setColumns(15);
         txt_nombre_bd.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -175,14 +193,19 @@ public class PnCuadros extends PnDatosPdf {
     private void rd_actualizar_bdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rd_actualizar_bdItemStateChanged
         if (rd_actualizar_bd.isSelected()) {
             txt_nombre_bd.setEnabled(false);
+            cbo_bases.setEnabled(true);
             super.setNuevoActualizar(false);
+            ModeloComBoBox modelo = new ModeloComBoBox();
+            modelo.update();
+            cbo_bases.setModel(modelo);
         }
     }//GEN-LAST:event_rd_actualizar_bdItemStateChanged
 
     private void rd_nueva_bdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rd_nueva_bdItemStateChanged
-        if(rd_nueva_bd.isSelected()){
-           txt_nombre_bd.setEnabled(true);
-           super.setNuevoActualizar(true);
+        if (rd_nueva_bd.isSelected()) {
+            txt_nombre_bd.setEnabled(true);
+            cbo_bases.setEnabled(false);
+            super.setNuevoActualizar(true);
         }
     }//GEN-LAST:event_rd_nueva_bdItemStateChanged
 
@@ -221,8 +244,9 @@ public class PnCuadros extends PnDatosPdf {
     
     private void setVisibleBD(boolean b) {
         this.rd_actualizar_bd.setVisible(b);
+        this.cbo_bases.setVisible(b);
         this.rd_nueva_bd.setVisible(b);
-        this.lbl_nombre_bd.setVisible(b);
+        this.separator2.setVisible(b);
         this.txt_nombre_bd.setVisible(b);
         this.updateUI();
     }
@@ -234,14 +258,15 @@ public class PnCuadros extends PnDatosPdf {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbo_bases;
     private javax.swing.JCheckBox ch_sin_cabecera;
     private javax.swing.JCheckBox ch_todos;
     private javax.swing.JDialog jDialog1;
-    private javax.swing.JLabel lbl_nombre_bd;
     private javax.swing.JPanel pn_cuadros;
     private javax.swing.JPanel pn_cuadros1;
     private javax.swing.JRadioButton rd_actualizar_bd;
     private javax.swing.JRadioButton rd_nueva_bd;
+    private javax.swing.JSeparator separator2;
     protected org.edisoncor.gui.textField.TextField txt_nombre_bd;
     // End of variables declaration//GEN-END:variables
 

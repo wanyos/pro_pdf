@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.wanyos.vista;
 
 import java.io.File;
@@ -29,7 +25,6 @@ public class AbstractPanelTest {
         File f = null;
         AbstractPanel instance = new AbstractPanel();
         instance.setFileRutaPdf(f);
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -41,7 +36,6 @@ public class AbstractPanelTest {
         File f = null;
         AbstractPanel instance = new AbstractPanel();
         instance.setFileRutaArchivoPdf(f);
-        fail("The test case is a prototype.");
     }
 
     /**

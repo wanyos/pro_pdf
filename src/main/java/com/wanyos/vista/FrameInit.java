@@ -1,9 +1,11 @@
 
 package com.wanyos.vista;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.edisoncor.gui.button.ButtonAction;
@@ -26,6 +28,7 @@ public class FrameInit extends JFrame {
         this.repaint();
         this.setLocation(200, 200);
         this.btn_ejecutar.setEnabled(false);
+        
         this.setVisible(true);
     }
 
@@ -200,14 +203,21 @@ public class FrameInit extends JFrame {
 
         pn_inf_der.setBackground(new java.awt.Color(153, 153, 153));
 
+        jScrollPane1.setBackground(new java.awt.Color(153, 153, 153));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
         txt_mensaje.setEditable(false);
         txt_mensaje.setBackground(new java.awt.Color(153, 153, 153));
         txt_mensaje.setColumns(55);
         txt_mensaje.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
         txt_mensaje.setForeground(new java.awt.Color(255, 255, 255));
         txt_mensaje.setRows(6);
+        txt_mensaje.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txt_mensaje.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         txt_mensaje.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         txt_mensaje.setEnabled(false);
+        txt_mensaje.setFocusable(false);
+        txt_mensaje.setSelectedTextColor(new java.awt.Color(153, 153, 153));
         jScrollPane1.setViewportView(txt_mensaje);
 
         pn_inf_der.add(jScrollPane1);

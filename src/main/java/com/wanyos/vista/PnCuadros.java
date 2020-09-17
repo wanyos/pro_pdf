@@ -27,7 +27,7 @@ public class PnCuadros extends PnDatosPdf {
     
     private void setColorCombo() {
      ((JTextField) cbo_bases.getEditor().getEditorComponent()).setBackground(new Color(153,153,153));
-     ((JTextField) cbo_bases.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
+     ((JTextField) cbo_bases.getEditor().getEditorComponent()).setForeground(Color.BLACK);
     }    
     
     
@@ -115,7 +115,7 @@ public class PnCuadros extends PnDatosPdf {
 
         cbo_bases.setBackground(new java.awt.Color(153, 153, 153));
         cbo_bases.setEditable(true);
-        cbo_bases.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        cbo_bases.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         cbo_bases.setForeground(new java.awt.Color(255, 255, 255));
         cbo_bases.setMinimumSize(new java.awt.Dimension(100, 22));
         cbo_bases.setOpaque(false);
@@ -210,7 +210,7 @@ public class PnCuadros extends PnDatosPdf {
     }//GEN-LAST:event_rd_nueva_bdItemStateChanged
 
     private void txt_nombre_bdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nombre_bdFocusLost
-        super.setNuevaBD(txt_nombre_bd.getText());
+        super.setNombreNuevaBD(txt_nombre_bd.getText());
     }//GEN-LAST:event_txt_nombre_bdFocusLost
 
 
@@ -252,6 +252,10 @@ public class PnCuadros extends PnDatosPdf {
     }
     
     
+    @Override
+    public String getSelectBase(){
+        return (String) this.cbo_bases.getSelectedItem();
+    }
     
     
    

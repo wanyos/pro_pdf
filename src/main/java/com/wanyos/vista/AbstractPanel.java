@@ -11,10 +11,10 @@ import javax.swing.JPanel;
  *
  * @author wanyos
  */
-public class AbstractPanel extends JPanel {
+public abstract class AbstractPanel extends JPanel {
     
-    private File ruta_pdf, ruta_archivo_pdf, ruta_destino;
-    private String nombre_destino, nombre_bd;
+    private File pdf, archivo_pdf, destino;
+    private String nombre_destino, nombre_nueva_bd;
     private boolean sin_cabecera, todos_archivos, nuevo, bd;
 
 
@@ -22,16 +22,16 @@ public class AbstractPanel extends JPanel {
     // -------------------------------------------------------------------------------------------------------------------------
     //  Métodos de acceso a los componentes del PnDatosPdf que usaran el resto de paneles
     
-    protected void setFileRutaPdf(File f) {
-        ruta_pdf = f;
+    protected void setFilePdf(File f) {
+        pdf = f;
     }
 
-    protected void setFileRutaArchivoPdf(File f) {
-        ruta_archivo_pdf = f;
+    protected void setFileArchivoPdf(File f) {
+        archivo_pdf = f;
     }
 
-    protected void setFileRutaDestino(File f) {
-        ruta_destino = f;
+    protected void setFileDestino(File f) {
+        destino = f;
     }
 
     protected void setNombreDestino(String n) {
@@ -71,9 +71,12 @@ public class AbstractPanel extends JPanel {
         this.todos_archivos = todos_archivos;
     }
     
-    protected void setNuevaBD(String nombre_bd){
-        this.nombre_bd = nombre_bd;
+    protected void setNombreNuevaBD(String nombre_bd){
+        this.nombre_nueva_bd = nombre_bd;
     }
+    
+    
+    public abstract String getSelectBase();
     
     
     
@@ -90,25 +93,25 @@ public class AbstractPanel extends JPanel {
     // -------------------------------------------------------------------------------------------------------------------------
     // Métodos getters and setters
 
-    public File getRutaPdf() {
-        if(ruta_pdf == null){
-           ruta_pdf = new File(""); 
+    public File getFilePdf() {
+        if(pdf == null){
+           pdf = new File(""); 
         }
-        return ruta_pdf;
+        return pdf;
     }
 
-    public File getRutaArchivoPdf() {
-        if(ruta_archivo_pdf == null){
-            ruta_archivo_pdf = new File("");
+    public File getFileArchivoPdf() {
+        if(archivo_pdf == null){
+            archivo_pdf = new File("");
         }
-        return ruta_archivo_pdf;
+        return archivo_pdf;
     }
 
-    public File getRutaDestino() {
-        if(ruta_destino == null){
-            ruta_destino = new File("");
+    public File getFileDestino() {
+        if(destino == null){
+            destino = new File("");
         }
-        return ruta_destino;
+        return destino;
     }
 
     public String getNombreDestino() {
@@ -118,11 +121,11 @@ public class AbstractPanel extends JPanel {
         return this.nombre_destino;
     }
     
-    public String getNombreBD(){
-        if(nombre_bd == null){
-            nombre_bd = "";
+    public String getNombreNuevaBD(){
+        if(nombre_nueva_bd == null){
+            nombre_nueva_bd = "";
         }
-        return this.nombre_bd;
+        return this.nombre_nueva_bd;
     }
     
     public boolean getSinCabecera(){

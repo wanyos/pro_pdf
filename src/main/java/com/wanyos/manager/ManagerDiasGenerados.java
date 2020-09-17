@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 public class ManagerDiasGenerados extends ManagerPdf {
     
     private TratarPdfDiasGenerados lpdfd;
-    private boolean datos_escritos;
-    private String total_lineas = "";
     private List<String> diferencias;
     
     
@@ -29,12 +27,15 @@ public class ManagerDiasGenerados extends ManagerPdf {
     //Estos métodos recogen los datos después de escribir en el archivo
     //Estos datos están en la clase padre
     
-    public String getTotalLineasEscritas() {
-        return total_lineas;
+    @Override
+    public String getTotalDatosActualizar() {
+        return super.getTotalDatosActualizar();
     }
     
-    public boolean getDatosEscritos(){
-        return datos_escritos;
+    
+    @Override
+    public boolean isSetDatosArchivo(){
+        return super.isSetDatosArchivo();
     }
     
     /**
@@ -87,8 +88,6 @@ public class ManagerDiasGenerados extends ManagerPdf {
         List<String> dias_leidos = lpdfd.getDiasLeidosPdf();
        
         super.writeFile(ruta_destino, nombre_archivo_destino, dias_leidos, sobreescribir);
-        datos_escritos = super.isSetDatosArchivo();
-        total_lineas = super.getTotalDatosActualizar();
     }
     
     
@@ -112,7 +111,6 @@ public class ManagerDiasGenerados extends ManagerPdf {
          }
          
          super.writeFile(ruta_destino, nombre_archivo_destino, dias_leidos, sobreescribir);
-         datos_escritos = super.isSetDatosArchivo();
     }
     
     

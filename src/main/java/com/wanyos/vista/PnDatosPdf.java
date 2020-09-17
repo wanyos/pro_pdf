@@ -219,29 +219,29 @@ public class PnDatosPdf extends AbstractPanel {
         add(pn_datos);
     }// </editor-fold>//GEN-END:initComponents
 
-    // Sube a la clase padre la ruta escogida en el chooser del directorio donde esta el pdf
+    // Sube a la clase padre el directorio escogido en el chooser
     private void btn_ruta_pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ruta_pdfActionPerformed
         File select_file = this.getFileDialog(true);
         if(select_file != null){
-            super.setFileRutaPdf(select_file);
+            super.setFilePdf(select_file);
             this.txt_ruta_pdf.setText(select_file.getAbsolutePath());
         }
     }//GEN-LAST:event_btn_ruta_pdfActionPerformed
 
-    // Sube a la clase padre el nombre del pdf escogido en el chooser
+    // Sube a la clase padre el archivo pdf escogido en el chooser
     private void btn_nombre_pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nombre_pdfActionPerformed
         File select_file = this.getFileDialog(false);
         if(select_file != null){
-           super.setFileRutaArchivoPdf(select_file);
+           super.setFileArchivoPdf(select_file);
            this.txt_nombre_pdf.setText(select_file.getName()); 
         }
     }//GEN-LAST:event_btn_nombre_pdfActionPerformed
 
-    // Sube a la clase padre la ruta destino del directorio escogido en el chooser
+    // Sube a la clase padre el directorio destino escogido en el chooser
     private void btn_destinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_destinoActionPerformed
        File select_file = this.getFileDialog(true);
         if(select_file != null){
-            super.setFileRutaDestino(select_file);
+            super.setFileDestino(select_file);
             this.txt_ruta_destino.setText(select_file.getAbsolutePath());
         }
     }//GEN-LAST:event_btn_destinoActionPerformed
@@ -360,7 +360,10 @@ public class PnDatosPdf extends AbstractPanel {
        super.setNombreDestino(this.txt_nombre_destino.getText());
     }//GEN-LAST:event_txt_nombre_destinoFocusLost
 
-    
+    @Override
+    public String getSelectBase() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 
     
@@ -381,6 +384,8 @@ public class PnDatosPdf extends AbstractPanel {
     protected org.edisoncor.gui.textField.TextField txt_ruta_destino;
     private org.edisoncor.gui.textField.TextField txt_ruta_pdf;
     // End of variables declaration//GEN-END:variables
+
+    
 
 
   

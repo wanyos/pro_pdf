@@ -29,7 +29,8 @@ public class ManagerCuadros extends ManagerPdf {
     }
     
            
-    public boolean getDatosEscritos(){
+    @Override
+    public boolean isSetDatosArchivo(){
         return super.isSetDatosArchivo();
     }
     
@@ -68,7 +69,7 @@ public class ManagerCuadros extends ManagerPdf {
 
                     List<String> datos_cuadro;
                     lpdfc = new TratarPdfCuadros(ruta_cuadros_pdf, name);
-                    if(sin_cabecera){
+                    if (sin_cabecera) {
                         datos_cuadro = lpdfc.getCuadroSinCabecera();
                     } else {
                         datos_cuadro = lpdfc.getCuadrosLeidosPdf();
@@ -88,10 +89,10 @@ public class ManagerCuadros extends ManagerPdf {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "La ruta no es un directorio... ", "ManagerCuadros...", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "La ruta no es un directorio... ", "ManagerCuadros...\n", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     
     /**
      * Devuelve un map de cuadros con su nombre y turnos, sin cabecera

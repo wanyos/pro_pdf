@@ -33,7 +33,8 @@ public class ManagerMinutos extends ManagerPdf {
     }
     
     
-    public boolean getDatosEscritos(){
+    @Override
+    public boolean isSetDatosArchivo(){
         return super.isSetDatosArchivo();
     }
 

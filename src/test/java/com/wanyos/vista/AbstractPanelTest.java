@@ -24,7 +24,7 @@ public class AbstractPanelTest {
         System.out.println("setFileRutaPdf");
         File f = null;
         AbstractPanel instance = new AbstractPanel();
-        instance.setFileRutaPdf(f);
+        instance.setFilePdf(f);
     }
 
     /**
@@ -35,7 +35,7 @@ public class AbstractPanelTest {
         System.out.println("setFileRutaArchivoPdf");
         File f = null;
         AbstractPanel instance = new AbstractPanel();
-        instance.setFileRutaArchivoPdf(f);
+        instance.setFileArchivoPdf(f);
     }
 
     /**
@@ -46,7 +46,7 @@ public class AbstractPanelTest {
         System.out.println("setFileRutaDestino");
         File f = null;
         AbstractPanel instance = new AbstractPanel();
-        instance.setFileRutaDestino(f);
+        instance.setFileDestino(f);
         fail("The test case is a prototype.");
     }
 
@@ -119,7 +119,7 @@ public class AbstractPanelTest {
         System.out.println("setNuevaBD");
         String nombre_bd = "";
         AbstractPanel instance = new AbstractPanel();
-        instance.setNuevaBD(nombre_bd);
+        instance.setNombreNuevaBD(nombre_bd);
         fail("The test case is a prototype.");
     }
 
@@ -143,7 +143,7 @@ public class AbstractPanelTest {
         System.out.println("getRutaPdf");
         AbstractPanel instance = new AbstractPanel();
         File expResult = null;
-        File result = instance.getRutaPdf();
+        File result = instance.getFilePdf();
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
     }
@@ -156,7 +156,7 @@ public class AbstractPanelTest {
         System.out.println("getRutaArchivoPdf");
         AbstractPanel instance = new AbstractPanel();
         File expResult = null;
-        File result = instance.getRutaArchivoPdf();
+        File result = instance.getFileArchivoPdf();
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
     }
@@ -169,7 +169,7 @@ public class AbstractPanelTest {
         System.out.println("getRutaDestino");
         AbstractPanel instance = new AbstractPanel();
         File expResult = null;
-        File result = instance.getRutaDestino();
+        File result = instance.getFileDestino();
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
     }
@@ -247,7 +247,7 @@ public class AbstractPanelTest {
         System.out.println("getNombreBD");
         AbstractPanel instance = new AbstractPanel();
         String expResult = "";
-        String result = instance.getNombreBD();
+        String result = instance.getNombreNuevaBD();
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
     }

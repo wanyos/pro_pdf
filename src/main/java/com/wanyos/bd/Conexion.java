@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  */
 public class Conexion {
     
+    
     private Connection cx;
     
     
@@ -51,16 +52,17 @@ public class Conexion {
             cnx = this.getConexionMysql();
             ps = cnx.prepareStatement("CREATE DATABASE " + nombre_bd);
             ps.executeUpdate();
-            base_creada = " Base datos: " + nombre_bd + " se ha creado...";
+            base_creada = " Base datos: " + nombre_bd + " se ha creado...\n";
 
         } catch (SQLException ex) {
-            base_creada = "Error base datos: " + nombre_bd + " no se ha creado... ";
+            base_creada = "Error base datos: " + nombre_bd + " no se ha creado... \n"+ex.getMessage();
         } finally {
             try {
                 cnx.close();
                 ps.close();
             } catch (SQLException ex) {
                 Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+               base_creada = "Error base datos: " + nombre_bd + " no se ha creado... \n"+ex.getMessage();
             }
         }
         return base_creada;
@@ -76,16 +78,16 @@ public class Conexion {
             cnx = this.getConexionMysql();
             ps = cnx.prepareStatement("DROP DATABASE " + nombre_bd);
             ps.executeUpdate();
-            base_creada = " Base datos: " + nombre_bd + " se ha eliminado...";
+            base_creada = " Base datos: " + nombre_bd + " se ha eliminado...\n";
 
         } catch (SQLException ex) {
-            base_creada = "Error base datos: " + nombre_bd + " no se ha eliminado... ";
+            base_creada = "Error base datos: " + nombre_bd + " no se ha eliminado...\n"+ex.getMessage();
         } finally {
             try {
                 cnx.close();
                 ps.close();
             } catch (SQLException ex) {
-                base_creada = "Error base datos: " + nombre_bd + " no se ha eliminado... ";
+                base_creada = "Error base datos: " + nombre_bd + " no se ha eliminado...\n"+ex.getMessage();
             }
         }
         return base_creada;
@@ -98,8 +100,8 @@ public class Conexion {
      */
     public List<String> getNombresBd() {
         List<String> nombres_bd = new ArrayList<>();
-        Connection c;
-        ResultSet rs;
+        Connection c = null;
+        ResultSet rs = null;
         try {
             c = this.getConexionMysql();
             rs = c.getMetaData().getCatalogs();
@@ -108,8 +110,49 @@ public class Conexion {
             }
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                c.close();
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return nombres_bd;
+    }
+    
+    
+     /**
+     * Crea listado nombres tablas base datos del parámetro
+     * @param nombre_bd
+     * @return 
+     */
+    public List<String> getNombresTablas(String nombre_bd) {
+        List<String> nombres = new ArrayList<>();
+        Connection conexion = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        String sql;
+        try {
+            conexion = this.getConexionMysql();
+            sql = "show full tables from " + nombre_bd;
+            st = conexion.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                nombres.add(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                conexion.close();
+                st.close();
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return nombres;
     }
     
     
@@ -122,16 +165,16 @@ public class Conexion {
             cnx = this.getConexionBd(nombre_bd);
             ps = cnx.prepareStatement("CREATE TABLE " + nombre_table + "(" + campos + ")");
             ps.execute();
-            tabla_creada = "La tabla "+nombre_table+ " se ha creado en "+nombre_bd+"...";
+            tabla_creada = "La tabla "+nombre_table+ " se ha creado en "+nombre_bd+"...\n";
             
         } catch (SQLException ex) {
-            tabla_creada = "Error la tabla "+nombre_table+ " no se ha creado en "+nombre_bd+"..."+ex.getMessage();
+            tabla_creada = "Error la tabla "+nombre_table+ " no se ha creado en "+nombre_bd+"...\n"+ex.getMessage();
         } finally {
             try {
                 cnx.close();
                 ps.close();
             } catch (SQLException ex) {
-                tabla_creada = "Error la tabla "+nombre_table+ " no se ha creado en "+nombre_bd+"..."+ex.getMessage();
+                tabla_creada = "Error la tabla "+nombre_table+ " no se ha creado en "+nombre_bd+"...\n"+ex.getMessage();
             }
         }
         return tabla_creada;
@@ -147,45 +190,19 @@ public class Conexion {
             cnx = this.getConexionBd(nombre_bd);
             ps = cnx.prepareStatement("DROP TABLE " + nombre_table);
             ps.execute();
-            tabla_eliminada = "La tabla " + nombre_table + " se ha eliminado de " + nombre_bd + "...";
+            tabla_eliminada = "La tabla " + nombre_table + " se ha eliminado de " + nombre_bd + "...\n";
 
         } catch (SQLException ex) {
-            tabla_eliminada = "La tabla " + nombre_table + " no se ha eliminado de " + nombre_bd + "..." + ex.getMessage();
+            tabla_eliminada = "La tabla " + nombre_table + " no se ha eliminado de " + nombre_bd + "...\n" + ex.getMessage();
         } finally {
             try {
                 cnx.close();
                 ps.close();
             } catch (SQLException ex) {
-                tabla_eliminada = "Error la tabla " + nombre_table + " no se ha eliminado de " + nombre_bd + "..." + ex.getMessage();
+                tabla_eliminada = "Error la tabla " + nombre_table + " no se ha eliminado de " + nombre_bd + "...\n" + ex.getMessage();
             }
         }
         return tabla_eliminada;
-    }
-    
-    
-    /**
-     * Crea listado nombres tablas base datos del parámetro
-     * @param nombre_bd
-     * @return 
-     */
-    public List<String> getNombresTablas(String nombre_bd) {
-        List<String> nombres = new ArrayList<>();
-        Connection conexion;
-        PreparedStatement st;
-        ResultSet rs;
-        String sql;
-        try {
-            conexion = this.getConexionMysql();
-            sql = "show full tables from " + nombre_bd;
-            st = conexion.prepareStatement(sql);
-            rs = st.executeQuery();
-            while (rs.next()) {
-                nombres.add(rs.getString(1));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return nombres;
     }
     
     
@@ -205,24 +222,6 @@ public class Conexion {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-//    public static void main(String [] args){
-//        Conexion c = new Conexion();
-//        //c.getNombres();
-//        List<String> t = c.getNombresTablas("cuadros_marzo2019");
-//        //List<String> bd = c.getNombresBd();
-////        String nombre_bd = "Nueva_base_datos";
-////        String nombre_tabla = "Nombres";
-////        String campos = "nombre varchar(45), apellidos varchar(45)";
-//       // System.out.println(c.createBd(nombre_bd));
-//       // System.out.println(c.createTable(nombre_bd, nombre_tabla, campos));
-//        //System.out.println(c.deleteeBd(nombre_bd));
-//        //System.out.println(c.deleteTable(nombre_bd, nombre_tabla));
-//        System.out.println();
-//    }
-    
-    
     
     
 }

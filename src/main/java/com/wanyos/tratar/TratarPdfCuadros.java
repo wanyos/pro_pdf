@@ -114,7 +114,7 @@ public class TratarPdfCuadros {
                     extraer_tratados.add(cabecera[0]);
                     contador++;
                     String t = extraer_tratados.get(extraer_tratados.size()-2);
-                    String t_aux = t.concat(" ").concat(cabecera[2]);
+                    String t_aux = t.concat("_").concat(cabecera[2]);
                     nombres_cuadros.add(t_aux);
                     extraer_tratados.set(extraer_tratados.size()-2, t_aux);
                     extraer_tratados.add(cabecera[1]);

@@ -20,6 +20,9 @@ public class ModeloComBoBox extends DefaultComboBoxModel<String> {
     }
     
     
+   /**
+    * Añade al modelo la lista de nombres bases de datos 
+    */
     public void update() {
         removeAllElements();
         bd = new Conexion();

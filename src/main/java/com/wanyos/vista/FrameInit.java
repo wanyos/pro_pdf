@@ -1,11 +1,9 @@
 
 package com.wanyos.vista;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.edisoncor.gui.button.ButtonAction;
@@ -28,7 +26,6 @@ public class FrameInit extends JFrame {
         this.repaint();
         this.setLocation(200, 200);
         this.btn_ejecutar.setEnabled(false);
-        
         this.setVisible(true);
     }
 
@@ -44,7 +41,6 @@ public class FrameInit extends JFrame {
     public void setTxtMensaje(String m) {
         this.txt_mensaje.append(m);
     }
-    
     
 
     private void setPanel(JPanel pn) {

@@ -24,6 +24,9 @@ import org.edisoncor.gui.textField.TextField;
 public class PnDatosPdf extends AbstractPanel {
 
     
+    private boolean select_base_datos;
+    
+    
     public PnDatosPdf() {
         initComponents();
         listenerBd();
@@ -67,7 +70,7 @@ public class PnDatosPdf extends AbstractPanel {
     private void initComponents() {
 
         pn_base_datos = new javax.swing.JPanel();
-        ch_bd = new javax.swing.JCheckBox();
+        ch_select_bd = new javax.swing.JCheckBox();
         jSeparator1 = new javax.swing.JSeparator();
         pn_datos = new javax.swing.JPanel();
         labelMetric1 = new org.edisoncor.gui.label.LabelMetric();
@@ -96,12 +99,12 @@ public class PnDatosPdf extends AbstractPanel {
         pn_base_datos.setPreferredSize(new java.awt.Dimension(550, 40));
         pn_base_datos.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        ch_bd.setBackground(new java.awt.Color(153, 153, 153));
-        ch_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        ch_bd.setForeground(new java.awt.Color(255, 255, 255));
-        ch_bd.setText("Actualizar BD");
-        ch_bd.setContentAreaFilled(false);
-        pn_base_datos.add(ch_bd);
+        ch_select_bd.setBackground(new java.awt.Color(153, 153, 153));
+        ch_select_bd.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        ch_select_bd.setForeground(new java.awt.Color(255, 255, 255));
+        ch_select_bd.setText("Seleccionar BD");
+        ch_select_bd.setContentAreaFilled(false);
+        pn_base_datos.add(ch_select_bd);
 
         jSeparator1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jSeparator1.setPreferredSize(new java.awt.Dimension(110, 5));
@@ -248,21 +251,20 @@ public class PnDatosPdf extends AbstractPanel {
 
     
     /**
-     * Si está seleccionado se guardan los datos en base datos 
+     * Se cambia la vista del panel pasando a ver lo necesario para operar en base de datos
      */
     protected void listenerBd() {
-        ch_bd.addItemListener(new ItemListener() {
+        ch_select_bd.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (ch_bd.isSelected()) {
+                if (ch_select_bd.isSelected()) {
                     setEnabledNombresBd(false);
                     getPnsAbstract(false);
-                    setBaseDatos(true);
                 } else {
                     setEnabledNombresBd(true);
                     getPnsAbstract(true);
-                    setBaseDatos(true);
                 }
+                 select_base_datos = true;
             }
         });
     }
@@ -360,18 +362,53 @@ public class PnDatosPdf extends AbstractPanel {
        super.setNombreDestino(this.txt_nombre_destino.getText());
     }//GEN-LAST:event_txt_nombre_destinoFocusLost
 
+    
+    
+    //-----------------------------------------------------------------------------------------------------------------------------------------
+    // Métodos implementados desde la clase PnCuadros
     @Override
     public String getSelectBase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
     
+    @Override
+    public boolean getSinCabecera() {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    @Override
+    public boolean isTodosArchivos() {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    @Override
+    public String getNombreNuevaBD() {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    
+    //-----------------------------------------------------------------------------------------------------------------------------------------
+    // Métodos implementados desde esta clase
+    @Override
+    public boolean getSelectBaseDatos() {
+        return select_base_datos;
+    }
+    
+    
+    //-----------------------------------------------------------------------------------------------------------------------------------------
+    // Métodos implementados desde las clase:
+    // Si true=nuevo_archivo false=actualizar
+    @Override
+    public boolean getNuevoActualizar() {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected org.edisoncor.gui.button.ButtonRect btn_destino;
     private org.edisoncor.gui.button.ButtonRect btn_nombre_pdf;
     private org.edisoncor.gui.button.ButtonRect btn_ruta_pdf;
-    protected javax.swing.JCheckBox ch_bd;
+    protected javax.swing.JCheckBox ch_select_bd;
     private javax.swing.JSeparator jSeparator1;
     private org.edisoncor.gui.label.LabelMetric labelMetric1;
     private org.edisoncor.gui.label.LabelMetric labelMetric2;
@@ -384,6 +421,18 @@ public class PnDatosPdf extends AbstractPanel {
     protected org.edisoncor.gui.textField.TextField txt_ruta_destino;
     private org.edisoncor.gui.textField.TextField txt_ruta_pdf;
     // End of variables declaration//GEN-END:variables
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 

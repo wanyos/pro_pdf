@@ -54,7 +54,7 @@
         <Property name="alignment" type="int" value="0"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JCheckBox" name="ch_bd">
+        <Component class="javax.swing.JCheckBox" name="ch_select_bd">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -65,7 +65,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Actualizar BD"/>
+            <Property name="text" type="java.lang.String" value="Seleccionar BD"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
           <AuxValues>

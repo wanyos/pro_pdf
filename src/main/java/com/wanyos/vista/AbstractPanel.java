@@ -14,13 +14,12 @@ import javax.swing.JPanel;
 public abstract class AbstractPanel extends JPanel {
     
     private File pdf, archivo_pdf, destino;
-    private String nombre_destino, nombre_nueva_bd;
-    private boolean sin_cabecera, todos_archivos, nuevo, bd;
+    private String nombre_destino;
 
 
     
     // -------------------------------------------------------------------------------------------------------------------------
-    //  Métodos de acceso a los componentes del PnDatosPdf que usaran el resto de paneles
+    //  Métodos implementados en las clases: 
     
     protected void setFilePdf(File f) {
         pdf = f;
@@ -38,44 +37,17 @@ public abstract class AbstractPanel extends JPanel {
         nombre_destino = n;
     }
     
-    protected void setBaseDatos(boolean b){
-        bd = b;
-    }
-    
-    /**
-     * Crea una lista con todos los paneles que contiene este panel
-     * @return 
-     */
-    protected List<JPanel> getPns(){
-        List<JPanel> pns = new ArrayList<>();
-        Component [] c = this.getComponents();
-        for(int a = 0; a< c.length; a++){
-            if(c[a] instanceof JPanel){
-                pns.add((JPanel) c[a]);
-            }
-        }
-        return pns;
-    }
-    
-    
-    
     
     // -------------------------------------------------------------------------------------------------------------------------
-    // Métodos que usa el PnCuadrosPdf
-    
-    protected void setSinCabecera(boolean b){
-        sin_cabecera = b;
-    }
-    
-    protected void setTodosArchivos(boolean todos_archivos) {
-        this.todos_archivos = todos_archivos;
-    }
-    
-    protected void setNombreNuevaBD(String nombre_bd){
-        this.nombre_nueva_bd = nombre_bd;
-    }
-    
-    
+    // Métodos que implementa PnCuadrosPdf
+    public abstract boolean getSelectBaseDatos();
+
+    public abstract boolean getSinCabecera();
+
+    public abstract boolean isTodosArchivos();
+
+    public abstract String getNombreNuevaBD();
+
     public abstract String getSelectBase();
     
     
@@ -83,15 +55,12 @@ public abstract class AbstractPanel extends JPanel {
     // -------------------------------------------------------------------------------------------------------------------------
     // Métodos que usa el PnGenerados
     
-    protected void setNuevoActualizar(boolean nuevo){
-       this.nuevo = nuevo;    
-    }
-    
+    public abstract boolean getNuevoActualizar();
     
     
     
     // -------------------------------------------------------------------------------------------------------------------------
-    // Métodos getters and setters
+    // Métodos getters 
 
     public File getFilePdf() {
         if(pdf == null){
@@ -121,28 +90,31 @@ public abstract class AbstractPanel extends JPanel {
         return this.nombre_destino;
     }
     
-    public String getNombreNuevaBD(){
-        if(nombre_nueva_bd == null){
-            nombre_nueva_bd = "";
+    
+    /**
+     * Crea una lista con todos los paneles que contiene este panel
+     * @return 
+     */
+    protected List<JPanel> getPns(){
+        List<JPanel> pns = new ArrayList<>();
+        Component [] c = this.getComponents();
+        for(int a = 0; a< c.length; a++){
+            if(c[a] instanceof JPanel){
+                pns.add((JPanel) c[a]);
+            }
         }
-        return this.nombre_nueva_bd;
+        return pns;
     }
     
-    public boolean getSinCabecera(){
-        return this.sin_cabecera;
-    }
-
-    public boolean isTodosArchivos() {
-        return todos_archivos;
-    }
     
-    public boolean getArchivoNuevo(){
-        return nuevo;
-    }
-
-    public boolean getBaseDatos(){
-        return bd;
-    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

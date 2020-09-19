@@ -14,6 +14,10 @@ import javax.swing.JTextField;
  */
 public class PnCuadros extends PnDatosPdf {
 
+    //la variable nuevo_actualizar significa: true=nuevo_archivo, false=actualizar
+    private boolean sin_cabecera, todos_archivos, nuevo_actualizar;
+    private String nombre_nueva_bd;
+    
     
     public PnCuadros() {
       initComponents();
@@ -22,6 +26,30 @@ public class PnCuadros extends PnDatosPdf {
       this.setVisibleBD(false);
       this.listenerBD();
       this.updateUI();
+    }
+    
+    
+    @Override
+    public String getSelectBase(){
+        return (String) this.cbo_bases.getSelectedItem();
+    }
+    
+    
+    @Override
+    public boolean getSinCabecera(){
+        return sin_cabecera;
+    }
+    
+    
+    @Override
+    public boolean isTodosArchivos(){
+        return todos_archivos;
+    }
+    
+    
+    @Override
+    public boolean getNuevoActualizar(){
+        return nuevo_actualizar;
     }
     
     
@@ -170,10 +198,12 @@ public class PnCuadros extends PnDatosPdf {
     private void ch_todosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ch_todosItemStateChanged
         if(ch_todos.isSelected()){
             setEnabledNombres(false);
-            super.setTodosArchivos(true);
+            todos_archivos = true;
+            //super.setTodosArchivos(true);
         } else {
             setEnabledNombres(true);
-            super.setTodosArchivos(false);
+            todos_archivos = false;
+            //super.setTodosArchivos(false);
         }
     }//GEN-LAST:event_ch_todosItemStateChanged
 
@@ -183,18 +213,21 @@ public class PnCuadros extends PnDatosPdf {
      * @param evt 
      */
     private void ch_sin_cabeceraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ch_sin_cabeceraItemStateChanged
-        if (ch_sin_cabecera.isSelected()) {
-            super.setSinCabecera(true);            
+         if (ch_sin_cabecera.isSelected()) {
+            //super.setSinCabecera(true);
+            sin_cabecera = true;
         } else {
-            super.setSinCabecera(false);
-        }        
+            //super.setSinCabecera(false);
+            sin_cabecera = false;
+        }   
     }//GEN-LAST:event_ch_sin_cabeceraItemStateChanged
 
     private void rd_actualizar_bdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rd_actualizar_bdItemStateChanged
         if (rd_actualizar_bd.isSelected()) {
             txt_nombre_bd.setEnabled(false);
             cbo_bases.setEnabled(true);
-            super.setNuevoActualizar(false);
+            nuevo_actualizar = false;
+            //super.setNuevoActualizar(false);
             ModeloComBoBox modelo = new ModeloComBoBox();
             modelo.update();
             cbo_bases.setModel(modelo);
@@ -205,20 +238,25 @@ public class PnCuadros extends PnDatosPdf {
         if (rd_nueva_bd.isSelected()) {
             txt_nombre_bd.setEnabled(true);
             cbo_bases.setEnabled(false);
-            super.setNuevoActualizar(true);
+            nuevo_actualizar = true;
+            //super.setNuevoActualizar(true);
         }
     }//GEN-LAST:event_rd_nueva_bdItemStateChanged
 
     private void txt_nombre_bdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nombre_bdFocusLost
-        super.setNombreNuevaBD(txt_nombre_bd.getText());
+        nombre_nueva_bd = txt_nombre_bd.getText();
+        if (nombre_nueva_bd == null) {
+            nombre_nueva_bd = "";
+        }
+        //super.setNombreNuevaBD(txt_nombre_bd.getText());
     }//GEN-LAST:event_txt_nombre_bdFocusLost
 
 
     protected void listenerBD(){
-        ch_bd.addItemListener(new ItemListener() {
+        ch_select_bd.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (ch_bd.isSelected()) {
+                if (ch_select_bd.isSelected()) {
                     setVisibleBD(true);
                     txt_nombre_bd.setEnabled(false);
                 } else {
@@ -252,10 +290,6 @@ public class PnCuadros extends PnDatosPdf {
     }
     
     
-    @Override
-    public String getSelectBase(){
-        return (String) this.cbo_bases.getSelectedItem();
-    }
     
     
    

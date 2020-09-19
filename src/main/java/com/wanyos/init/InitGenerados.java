@@ -2,35 +2,73 @@
 package com.wanyos.init;
 
 import com.wanyos.manager.ManagerDiasGenerados;
+import com.wanyos.vista.AbstractPanel;
 import java.util.List;
 
 /**
  * 
  * @author wanyos
  */
-public class InitGenerados  {
+public class InitGenerados extends InitAbstract {
     
-    private String ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino;
-    private boolean archivo_nuevo;
+   
     private ManagerDiasGenerados mgd;
     
     
-    public InitGenerados(String ruta_pdf, String nombre_archivo_pdf, String ruta_destino, String nombre_destino, boolean archivo_nuevo){
-        this.ruta_pdf = ruta_pdf;
-        this.nombre_archivo_pdf = nombre_archivo_pdf;
-        this.ruta_destino = ruta_destino;
-        this.nombre_destino = nombre_destino;
-        this.archivo_nuevo = archivo_nuevo;
+    public InitGenerados(AbstractPanel pn_abs){
+         super(pn_abs);
+        //comprueba datos comunes en todos los supuestos
+        comprobarDatosGenerados();
+    }
+   
+    
+    /**
+     * Comprueba los datos de los casos concretos que pueden existir
+     * los archivos esenciales son la ruta pdf y el archivo pdf
+     * los dos son necesarios tanto para base de datos como para archivo
+     */
+    private void comprobarDatosGenerados(){
+        if(super.comprobarDatos()){           
+            if(super.isActualizarBd()){
+                setActualizarBD(super.getRutaFilePdf(), super.getNombreArchivoPdf());
+            } else {
+                comprobarDatosArchivo();
+            }
+        }
     }
     
     
-    public String setArchivoGenerados(){
+    /**
+     * Es necesario comprobar si se quiere un archivo nuevo o no
+     * En caso de uno nuevo se le usa la función comprobarNombre que le dara un nombre al archivo en caso de error
+     * Si el caso es actualizar el archivo debe existir
+     */
+    private void comprobarDatosArchivo() {
+        if (super.existeFileArchivoPdf()) {
+
+            if (super.getNuevoActualizar()) {
+                String nombre_destino = super.comprobarNombreDestino(super.getNombreArchivoDestino(), super.getNombreArchivoPdf());
+                setArchivoGenerados(super.getRutaFilePdf(), super.getNombreArchivoPdf(), super.getRutaFileDestino(), nombre_destino, super.getNuevoActualizar());
+
+            } else if (!super.getNuevoActualizar() && super.existeFileArchivoDestino()) {
+                setArchivoGenerados(super.getRutaFilePdf(), super.getNombreArchivoPdf(), super.getRutaFileDestino(), super.getNombreArchivoDestino(), super.getNuevoActualizar());
+            }
+
+        }
+    }
+
+    
+        
+    private void setArchivoGenerados(String ruta_pdf, String nombre_archivo_pdf, String ruta_destino, String nombre_destino, boolean archivo_nuevo) {
+        String msg = "";
         mgd = new ManagerDiasGenerados();
         mgd.setFileDiasGenerados(ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino, archivo_nuevo);
-        if(archivo_nuevo){
-          return(mgd.getTotalDatosActualizar()); 
+        if (archivo_nuevo) {
+            msg = mgd.getTotalDatosActualizar();
+        } else {
+            msg = mgd.getTotalDatosActualizar().concat(getDatosEscritosDiferencias(mgd.isSetDatosArchivo()));
         }
-          return(mgd.getTotalDatosActualizar().concat(getDatosEscritosDiferencias(mgd.isSetDatosArchivo())));
+        super.setMensaje(msg);
     }
     
     
@@ -46,6 +84,18 @@ public class InitGenerados  {
         }
         return diferencias;
     }
+    
+    
+    private void setActualizarBD(String ruta_pdf, String nombre_archivo_pdf){
+         mgd = new ManagerDiasGenerados();
+         String msg = "";
+        
+        
+        
+        super.setMensaje(msg);
+    }
+    
+    
     
     
 }

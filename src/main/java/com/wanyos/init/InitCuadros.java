@@ -3,6 +3,7 @@ package com.wanyos.init;
 
 import com.wanyos.bd.CuadrosDAO;
 import com.wanyos.manager.ManagerCuadros;
+import com.wanyos.vista.AbstractPanel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,54 +12,91 @@ import java.util.Map;
  * 
  * @author wanyos
  */
-public class InitCuadros extends Init {
+public class InitCuadros extends InitAbstract {
     
     private ManagerCuadros mc;
-    private boolean sin_cabecera;
-    private String ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino, nombre_nueva_bd;
     
-    
-    
-    
-    public InitCuadros(String ruta_pdf, String ruta_destino, boolean sin_cabecera){
-        this.mc = new ManagerCuadros();
-        this.ruta_pdf = ruta_pdf;
-        this.ruta_destino = ruta_destino;
-        this.sin_cabecera = sin_cabecera;
+  
+    public InitCuadros(AbstractPanel pn_abs){
+        super(pn_abs);
+        //comprueba datos comunes en todos los supuestos
+        comprobarDatosCuadros();
     }
     
     
-    public InitCuadros(String ruta_pdf, String nombre_archivo_pdf, String ruta_destino, String nombre_destino, boolean sin_cabecera){
-        this.mc = new ManagerCuadros();
-        this.ruta_pdf = ruta_pdf;
-        this.nombre_archivo_pdf = nombre_archivo_pdf;
-        this.ruta_destino = ruta_destino;
-        this.nombre_destino = nombre_destino;
-        this.sin_cabecera = sin_cabecera;
+    /**
+     * Comprueba los datos de los casos concretos que pueden existir
+     */
+    private void comprobarDatosCuadros(){
+        if(super.comprobarDatos()){      //comprueba los datos esenciales tanto para base de datos como para archivos
+            if(super.isActualizarBd()){
+                comprobarDatosBD();
+            } else {
+                comprobarDatosArchivo();
+            }
+        }
     }
     
     
-    public InitCuadros(String ruta_pdf, String nombre_archivo_pdf, String nombre_nueva_bd){
-        this.mc = new ManagerCuadros();
-        this.ruta_pdf = ruta_pdf;
-        this.nombre_archivo_pdf = nombre_archivo_pdf;
-        this.nombre_nueva_bd = nombre_nueva_bd;
+    private void comprobarDatosBD() {
+        if (super.getNuevoActualizar() && existeNombreNuevaBD()) {
+            //obtener los datos necesarios para crear una nueva base de datos
+            this.setNuevaBD(super.getRutaFilePdf(), super.getNombreArchivoPdf(), super.getNombreNuevaBD());
+        } else {
+            //obtener los datos para actualizar la base de datos indicada
+            this.setActualizarBD(super.getRutaFilePdf(), super.getNombreArchivoPdf(), super.getSelectBase());
+        }
     }
     
     
-    public String setArchivosCuadros() {
+    private void comprobarDatosArchivo() {
+        if (super.getTodosArchivos()) {
+            setArchivosCuadros(super.getRutaFilePdf(), super.getRutaFileDestino(), super.getSinCabecera());
+        } else {
+            if (super.existeFileArchivoPdf()) {
+                setArchivoCuadro(super.getRutaFilePdf(), super.getNombreArchivoPdf(), super.getRutaFileDestino(),
+                                 super.getNombreArchivoDestino(), super.getSinCabecera());
+            }
+        }
+    }
+
+    
+    /**
+     * Crea archivos de todos los pdf que existan en el directorio ruta_destino
+     * @param ruta_pdf
+     * @param ruta_destino
+     * @param sin_cabecera 
+     */
+    private void setArchivosCuadros(String ruta_pdf, String ruta_destino, boolean sin_cabecera) {
+        mc = new ManagerCuadros();
         mc.writeArchivosCuadros(ruta_pdf, ruta_destino, sin_cabecera);
-        return(mc.getTotalDatosActualizar());
+        super.setMensaje(mc.getTotalDatosActualizar());
     }
     
     
-    public String setArchivoCuadro(){
+    /**
+     * Crea un unico archivo con el pdf 
+     * @param ruta_pdf
+     * @param nombre_archivo_pdf
+     * @param ruta_destino
+     * @param nombre_destino
+     * @param sin_cabecera 
+     */
+    private void setArchivoCuadro(String ruta_pdf, String nombre_archivo_pdf, String ruta_destino, String nombre_destino, boolean sin_cabecera){
+        mc = new ManagerCuadros();
         mc.writeFileCuadro(ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino, sin_cabecera);
-        return(mc.getTotalDatosActualizar());
+        super.setMensaje(mc.getTotalDatosActualizar());
     }
     
     
-    public String setNuevaBD(){
+    /**
+     * Crea ujna nueva base de datos con la estructura de cuadros
+     * @param ruta_pdf
+     * @param nombre_archivo_pdf
+     * @param nombre_nueva_bd 
+     */
+    private void setNuevaBD(String ruta_pdf, String nombre_archivo_pdf, String nombre_nueva_bd){
+        mc = new ManagerCuadros();
         String msg = "";
         Map<String, List<String>> listas_cuadros;
         CuadrosDAO cuadros_dao;
@@ -74,16 +112,31 @@ public class InitCuadros extends Init {
             String creada_tabla = cuadros_dao.crearTablaCuadro(nombre_nueva_bd, nombres_tablas);
             msg = msg.concat(creada_tabla);
         }
-        return msg;
+        super.setMensaje(msg);
     }
     
     
-    public String actualizarBD(){
+    /**
+     * Rellena la nueva base de datos creada con los datos del HasMap
+     */
+    private void setDatosNuevaBD(Map<String, List<String>> datos){
+        
+    }
+    
+    
+    /**
+     * Actualiza la base de datos seleccionada
+     * @param ruta_pdf
+     * @param archivo_pdf
+     * @param nombre_bd 
+     */
+    private void setActualizarBD(String ruta_pdf, String archivo_pdf, String nombre_bd){
+        mc = new ManagerCuadros();
         String msg = "";
         
         
         
-        return msg;
+        super.setMensaje(msg);
     }
     
     

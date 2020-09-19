@@ -8,11 +8,19 @@ import javax.swing.ButtonGroup;
  */
 public class PnGenerados extends PnDatosPdf {
 
+    //la variable nuevo_actualizar significa: true=nuevo_archivo, false=actualizar
+    private boolean nuevo_actualizar;
     
     public PnGenerados() {
         initComponents();
         setGroup();
         this.updateUI();
+    }
+    
+    
+    @Override
+    public boolean getNuevoActualizar(){
+        return nuevo_actualizar;
     }
     
     
@@ -62,7 +70,8 @@ public class PnGenerados extends PnDatosPdf {
 
     private void rd_nuevoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rd_nuevoItemStateChanged
        if(this.rd_nuevo.isSelected()){
-           super.setNuevoActualizar(true);
+           //super.setNuevoActualizar(true);
+           nuevo_actualizar = true;
            super.setNombreDestino(this.txt_nombre_destino.getText().trim());
        }
     }//GEN-LAST:event_rd_nuevoItemStateChanged

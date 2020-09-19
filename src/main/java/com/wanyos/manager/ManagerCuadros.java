@@ -67,13 +67,7 @@ public class ManagerCuadros extends ManagerPdf {
                 String name = files[a].getName();
                 if (name.contains(".pdf")) {
 
-                    List<String> datos_cuadro;
-                    lpdfc = new TratarPdfCuadros(ruta_cuadros_pdf, name);
-                    if (sin_cabecera) {
-                        datos_cuadro = lpdfc.getCuadroSinCabecera();
-                    } else {
-                        datos_cuadro = lpdfc.getCuadrosLeidosPdf();
-                    }
+                    List<String> datos_cuadro = this.getCuadroLeido(ruta_cuadros_pdf, name, sin_cabecera);
 
                     int contador = 0;
                     List<String> names = lpdfc.getNombresCuadros();
@@ -90,6 +84,39 @@ public class ManagerCuadros extends ManagerPdf {
             }
         } else {
             JOptionPane.showMessageDialog(null, "La ruta no es un directorio... ", "ManagerCuadros...\n", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+    /**
+     * Escribe un solo archivo con los datos del cuadro pedido
+     * Hay que comprobar que el listado del cuadro es solo de un cuadro o hay más
+     * Si es así hay que separarlos
+     * Si el nombre de archivo_destino="" se coge el nombre o los nombres del pdf leido
+     * @param ruta_pdf
+     * @param nombre_pdf
+     * @param ruta_destino
+     * @param nombre_archivo_destino
+     * @param sin_cabecera 
+     */
+    public void writeFileCuadro(String ruta_pdf, String nombre_pdf, String ruta_destino, String nombre_archivo_destino, boolean sin_cabecera) {
+        boolean sobreescribir = false;
+        List<String> datos_cuadro = this.getCuadroLeido(ruta_pdf, nombre_pdf, sin_cabecera);
+        List<String> names = this.lpdfc.getNombresCuadros();
+        List<String> datos = new ArrayList<>();
+        int contador = 0;
+        String nombre = nombre_archivo_destino;
+        
+        for (String aux : datos_cuadro) {
+            if (aux.equals(";")) {
+                if(nombre_archivo_destino.length() <= 0){
+                    nombre = names.get(contador++);
+                }
+                super.writeFile(ruta_destino, nombre + ".txt", datos, sobreescribir);
+                datos.clear();
+            } else {
+                datos.add(aux);
+            }
         }
     }
 
@@ -120,19 +147,7 @@ public class ManagerCuadros extends ManagerPdf {
     }
     
     
-    /**
-     * Escribe un solo archivo con los datos del cuadro pedido
-     * @param ruta_pdf
-     * @param nombre_pdf
-     * @param ruta_destino
-     * @param nombre_archivo_destino
-     * @param sin_cabecera 
-     */
-    public void writeFileCuadro(String ruta_pdf, String nombre_pdf, String ruta_destino, String nombre_archivo_destino, boolean sin_cabecera) {
-        boolean sobreescribir = false;
-        List<String> datos_cuadro = this.getCuadroLeido(ruta_pdf, nombre_pdf, sin_cabecera);
-        super.writeFile(ruta_destino, nombre_archivo_destino, datos_cuadro, sobreescribir);
-    }
+    
 
     
 }

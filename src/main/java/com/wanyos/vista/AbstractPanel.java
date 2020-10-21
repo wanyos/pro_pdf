@@ -38,6 +38,7 @@ public abstract class AbstractPanel extends JPanel {
     }
     
     
+    
     // -------------------------------------------------------------------------------------------------------------------------
     // Métodos que implementa PnCuadrosPdf
     public abstract boolean getSelectBaseDatos();

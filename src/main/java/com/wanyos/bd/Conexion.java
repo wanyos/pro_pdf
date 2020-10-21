@@ -44,7 +44,7 @@ public class Conexion {
     
     
     public String createBd(String nombre_bd) {
-        String base_creada;
+        String base_creada = "";
         Connection cnx = null;
         PreparedStatement ps = null;
         try {

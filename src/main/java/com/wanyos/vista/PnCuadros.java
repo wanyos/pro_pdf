@@ -16,11 +16,13 @@ public class PnCuadros extends PnDatosPdf {
 
     //la variable nuevo_actualizar significa: true=nuevo_archivo, false=actualizar
     private boolean sin_cabecera, todos_archivos, nuevo_actualizar;
-    private String nombre_nueva_bd;
+    private String nombre_nueva_bd = "";
     
     
     public PnCuadros() {
       initComponents();
+      super.getTxt_nombre_destino().setVisible(false);
+      super.getLbl_destino().setVisible(false);
       this.setColorCombo();
       this.setGroup();
       this.setVisibleBD(false);
@@ -50,6 +52,12 @@ public class PnCuadros extends PnDatosPdf {
     @Override
     public boolean getNuevoActualizar(){
         return nuevo_actualizar;
+    }
+    
+    
+    @Override
+    public String getNombreNuevaBD(){
+        return nombre_nueva_bd;
     }
     
     
@@ -199,11 +207,9 @@ public class PnCuadros extends PnDatosPdf {
         if(ch_todos.isSelected()){
             setEnabledNombres(false);
             todos_archivos = true;
-            //super.setTodosArchivos(true);
         } else {
             setEnabledNombres(true);
             todos_archivos = false;
-            //super.setTodosArchivos(false);
         }
     }//GEN-LAST:event_ch_todosItemStateChanged
 
@@ -214,10 +220,8 @@ public class PnCuadros extends PnDatosPdf {
      */
     private void ch_sin_cabeceraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ch_sin_cabeceraItemStateChanged
          if (ch_sin_cabecera.isSelected()) {
-            //super.setSinCabecera(true);
             sin_cabecera = true;
         } else {
-            //super.setSinCabecera(false);
             sin_cabecera = false;
         }   
     }//GEN-LAST:event_ch_sin_cabeceraItemStateChanged
@@ -227,7 +231,6 @@ public class PnCuadros extends PnDatosPdf {
             txt_nombre_bd.setEnabled(false);
             cbo_bases.setEnabled(true);
             nuevo_actualizar = false;
-            //super.setNuevoActualizar(false);
             ModeloComBoBox modelo = new ModeloComBoBox();
             modelo.update();
             cbo_bases.setModel(modelo);
@@ -239,7 +242,6 @@ public class PnCuadros extends PnDatosPdf {
             txt_nombre_bd.setEnabled(true);
             cbo_bases.setEnabled(false);
             nuevo_actualizar = true;
-            //super.setNuevoActualizar(true);
         }
     }//GEN-LAST:event_rd_nueva_bdItemStateChanged
 
@@ -248,7 +250,6 @@ public class PnCuadros extends PnDatosPdf {
         if (nombre_nueva_bd == null) {
             nombre_nueva_bd = "";
         }
-        //super.setNombreNuevaBD(txt_nombre_bd.getText());
     }//GEN-LAST:event_txt_nombre_bdFocusLost
 
 
@@ -275,8 +276,6 @@ public class PnCuadros extends PnDatosPdf {
         super.getBtn_nombre_pdf().setEnabled(b);
         super.getTxt_nombre_pdf().setEnabled(b);
         super.getTxt_nombre_pdf().setText("");
-        super.getTxt_nombre_destino().setEnabled(b);
-        super.getTxt_nombre_destino().setText("");
     }
     
     

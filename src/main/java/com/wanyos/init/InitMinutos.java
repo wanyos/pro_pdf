@@ -2,7 +2,7 @@
 package com.wanyos.init;
 
 import com.wanyos.manager.ManagerMinutos;
-import com.wanyos.vista.AbstractPanel;
+import java.io.File;
 
 /**
  *
@@ -10,42 +10,35 @@ import com.wanyos.vista.AbstractPanel;
  */
 public class InitMinutos extends InitAbstract {
     
-    ManagerMinutos mm;
-    String ruta_pdf, nombre_archivo_pdf, ruta_destino;
+    private ManagerMinutos mm;
+    private String ruta_pdf, ruta_archivo_pdf, ruta_destino, nombre_destino;
     
     
-    public InitMinutos(AbstractPanel pn_abs){
-        super(pn_abs);
-        comprobarDatosMinutos();
+    
+    public InitMinutos(File file_pdf, File archivo_pdf){
+        this.ruta_pdf = file_pdf.getAbsolutePath();
+        this.ruta_archivo_pdf = archivo_pdf.getAbsolutePath();
+        setActualizarBD();
     }
     
     
-    private void comprobarDatosMinutos(){
-        if(super.comprobarDatos()){
-            if(super.isActualizarBd()){
-                setActualizarBD(super.getRutaFilePdf(), super.getNombreArchivoPdf());
-            } else {
-                comprobarArchivo();
-            }
-        }
+    public InitMinutos(File file_pdf, File archivo_pdf, File file_destino, String nombre_destino){
+        this.ruta_pdf = file_pdf.getAbsolutePath();
+        this.ruta_archivo_pdf = archivo_pdf.getAbsolutePath();
+        this.ruta_destino = file_destino.getAbsolutePath();
+        this.nombre_destino = nombre_destino;
+        setActualizarArchivo();
     }
     
     
-    private void comprobarArchivo(){
-      if(super.existeFileArchivoPdf() && super.existeFileArchivoDestino()){
-          setActualizarArchivo(super.getRutaFilePdf(), super.getNombreArchivoPdf(), super.getRutaFileDestino(), super.getNombreArchivoDestino());
-      }    
-    }
-    
-    
-    private void setActualizarArchivo(String ruta_pdf, String nombre_archivo_pdf, String ruta_destino, String nombre_destino) {
+    private void setActualizarArchivo() {
         mm = new ManagerMinutos();
-        mm.actualizarArchivo(ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino);
+        mm.actualizarArchivo(ruta_pdf, ruta_archivo_pdf, ruta_destino, nombre_destino);
         super.setMensaje(mm.getTotalDatosActualizar());
     }
 
     
-    private void setActualizarBD(String ruta_pdf, String nombre_archivo_pdf){
+    private void setActualizarBD(){
         
     }
     

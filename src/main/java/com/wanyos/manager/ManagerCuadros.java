@@ -1,8 +1,11 @@
 
 package com.wanyos.manager;
 
+import com.wanyos.modelo.Turno;
 import com.wanyos.tratar.TratarPdfCuadros;
 import java.io.File;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +16,7 @@ import javax.swing.JOptionPane;
  * Se crean archivos con los datos del pdf cuadros
  * Se lee una carpeta con todos los pdf y se convierten a archivo plano
  * Actualiza el los cuadros en la base de datos
+ * Crea nuevas bases de datos con cuadros
  * @author wanyos
  */
 public class ManagerCuadros extends ManagerPdf {
@@ -129,7 +133,7 @@ public class ManagerCuadros extends ManagerPdf {
      */
     public Map<String, List<String>> getMapCuadro(String ruta_pdf, String nombre_pdf){
         lpdfc = new TratarPdfCuadros(ruta_pdf, nombre_pdf);
-        Map<String, List<String>> listas_cuadros = new HashMap<>();
+        Map<String, List<String>> map_cuadros = new HashMap<>();
         
         List<String> nombres = lpdfc.getNombresCuadros();
         List<String> datos_cuadros = lpdfc.getCuadroSinCabecera();
@@ -138,16 +142,60 @@ public class ManagerCuadros extends ManagerPdf {
         
         for(String aux: datos_cuadros){
             if(aux.equals(";")){
-                listas_cuadros.put(nombres.get(contador++), datos);
+                map_cuadros.put(nombres.get(contador++), datos);
+                datos = new ArrayList<>();
             } else {
                 datos.add(aux);
             }
         }
-        return listas_cuadros;
+        return map_cuadros;
+    }
+    
+    
+    public Map<String, List<Turno>> getMapTurnos(String ruta_pdf, String nombre_pdf) {
+        lpdfc = new TratarPdfCuadros(ruta_pdf, nombre_pdf);
+        Map<String, List<Turno>> map_turnos = new HashMap<>();
+        
+        List<String> nombres = lpdfc.getNombresCuadros();
+        List<String> datos_cuadros = lpdfc.getCuadroSinCabecera();
+        List<Turno> lista_turnos = new ArrayList<>();
+        int contador = 0;
+            
+        for(String aux: datos_cuadros){
+            if(aux.equals(";")){
+                map_turnos.put(nombres.get(contador++), lista_turnos);
+                lista_turnos = new ArrayList<>();
+            } else {
+                Turno t = convertTurno(aux);
+                lista_turnos.add(t);
+            }
+        }
+        return map_turnos;
     }
     
     
     
+    private Turno convertTurno(String line) {
+        String[] d = line.split(";");
+        int turno = Integer.parseInt(d[0]);
+        String cc = d[1];
+        LocalTime init = LocalTime.parse(d[2], DateTimeFormatter.ofPattern("HH:mm"));
+        String lugar_ini = d[3];
+        LocalTime fin = LocalTime.parse(d[4], DateTimeFormatter.ofPattern("HH:mm"));
+        String lugar_fin = d[5];
+        LocalTime total_turno = LocalTime.parse(d[6], DateTimeFormatter.ofPattern("HH:mm"));
+        int minutos;
+        if (d[7].equals("--")) {
+            minutos = 0;
+        } else {
+            minutos = Integer.parseInt(d[7]);
+        }
 
+        Turno t = new Turno(turno, cc, init, lugar_ini, fin, lugar_fin, total_turno, minutos);
+
+        return t;
+    }
+
+    
     
 }

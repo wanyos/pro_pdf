@@ -5,7 +5,6 @@ package com.wanyos.init;
 import com.wanyos.vista.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -18,8 +17,9 @@ public class Init {
     private FrameInit fi;
     private JButton btn_ejecutar;
     private AbstractPanel pn_abs;
-    private String ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino, nombre_nueva_bd;
-    
+    private Validar vl;
+    private InitAbstract inb;
+   
     
     public Init() {
         fi = new FrameInit();
@@ -44,256 +44,135 @@ public class Init {
     
     
     private void prepare(){
-        InitAbstract inb = null;
         if(pn_abs instanceof PnCuadros){
-            inb = new InitCuadros(pn_abs);
+            //inb = new InitCuadros(pn_abs);
+            if(pn_abs.getSelectBaseDatos()){
+                validarCuadrosBD();
+            } else {
+                validarCuadrosArchivo();
+            }
+            
         } else if(pn_abs instanceof PnGenerados){
-            inb = new InitGenerados(pn_abs);
-        } else if(pn_abs instanceof PnMinutos){
-            inb = new InitMinutos(pn_abs);
+            //inb = new InitGenerados(pn_abs);
+            if(pn_abs.getSelectBaseDatos()){
+                validarGeneradosBaseDatos();
+            } else {
+                validarGeneradosArchivo();
+            }
+            
+        } else if (pn_abs instanceof PnMinutos) {
+            //inb = new InitMinutos(pn_abs);
+            if (pn_abs.getSelectBaseDatos()) {
+                validarMinutosBaseDatos();
+            } else {
+                validarMinutosArchivo();
+            }
         }
-        if(inb != null){
+
+        if (inb != null){
            this.setDatosEscritos(inb.getMensaje()); 
         }
     }
     
     
-    private void setDatosEscritos(String datos_actualizados) {
+    //--------------------------------------------------------   validar cuadros  -----------------------------------------------------------//
+    
+    private void validarCuadrosArchivo() {
+        vl = new Validar(pn_abs);
+
+        if (pn_abs.isTodosArchivos() && vl.validarTodosArchivosCuadro()) {
+            //crear objeto todos archivos
+           inb = new InitCuadros(pn_abs.getFilePdf(), pn_abs.getFileDestino(), pn_abs.getSinCabecera());
+
+        } else if(vl.validarArchivoCuadro()){
+           //crear objeto para un solo archivo
+           inb = new InitCuadros(pn_abs.getFilePdf(), pn_abs.getFileArchivoPdf(), pn_abs.getFileDestino(), pn_abs.getNombreDestino(), pn_abs.getSinCabecera());
+        } else {
+            JOptionPane.showMessageDialog(pn_abs, "No se puede crear archivo cuadros, faltan datos... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+    private void validarCuadrosBD(){
+        vl = new Validar(pn_abs);
+        //falta validar si es un nombre valido cuando seleccionamos una base existente
+        if(vl.validarBDCuadro()){
+            inb = new InitCuadros(pn_abs.getFilePdf(), pn_abs.getFileDestino(), pn_abs.getSelectBase(), pn_abs.getNombreNuevaBD()); 
+        } else {
+            JOptionPane.showMessageDialog(pn_abs, "No se puede crear BD cuadros, faltan datos... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    
+    
+   //--------------------------------------------------------   validar generados  -----------------------------------------------------------//
+    
+    
+    private void validarGeneradosArchivo(){
+         vl = new Validar(pn_abs);
+         
+         if(vl.validarArchivoGenerados()){
+             inb = new InitGenerados(pn_abs.getFilePdf(), pn_abs.getFileArchivoPdf(), pn_abs.getFileDestino(), pn_abs.getNombreDestino(), pn_abs.getNuevoActualizar());
+         } else {
+             JOptionPane.showMessageDialog(pn_abs, "No se puede actualizar archivo generados, faltan datos... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+    private void validarGeneradosBaseDatos(){
+      vl = new Validar(pn_abs);
+      
+      if(vl.validarFilePdfArchivoPdf()){
+          inb = new InitGenerados(pn_abs.getFilePdf(), pn_abs.getFileArchivoPdf());
+      } else {
+          JOptionPane.showMessageDialog(pn_abs, "No se puede actualizar BD generados, faltan datos... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
+      }
+    }
+    
+    
+   //--------------------------------------------------------   validar generados  -----------------------------------------------------------//
+    
+    
+    private void validarMinutosArchivo(){
+        vl = new Validar(pn_abs);
+        if(vl.validarArchvivoMinutos()){
+            inb = new InitMinutos(pn_abs.getFilePdf(), pn_abs.getFileArchivoPdf(), pn_abs.getFileDestino(), pn_abs.getNombreDestino());
+        } else {
+          JOptionPane.showMessageDialog(pn_abs, "No se puede actualizar archivo minutos, faltan datos... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);  
+        } 
+    }
+    
+    
+    private void validarMinutosBaseDatos(){
+        vl = new Validar(pn_abs);
+        if(vl.validarFilePdfArchivoPdf()){
+            inb = new InitMinutos(pn_abs.getFilePdf(), pn_abs.getFileArchivoPdf());
+        } else {
+            JOptionPane.showMessageDialog(pn_abs, "No se puede actualizar BD minutos, faltan datos... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+    
+    
+    private void setDatosEscritos(String datos){
+        if(pn_abs.getSelectBaseDatos()){
+            setDatosEscritosBD(datos);
+        } else {
+            setDatosEscritosArchivo(datos);
+        }
+    }
+    
+    private void setDatosEscritosArchivo(String datos_actualizados) {
         if (datos_actualizados != null && datos_actualizados.length() > 0) {
             fi.setTxtMensaje(" Fin del proceso de conversión del pdf...\n Se han escrito: " + datos_actualizados + "lineas\n");
         }
     }
     
-    
-    /**
-     * Escoge entre opción archivo o base de datos
-     * @param pn_abstract 
-     */
-//    private void ejecutarConvert(AbstractPanel pn_abstract){
-//        if(pn_abstract.getBaseDatos()){
-//            prepareBD(pn_abstract);
-//        } else if(!pn_abstract.getBaseDatos()){
-//          prepareArchivo(pn_abstract, pn_abstract.getName());  
-//        }    
-//    }
-    
-   
-    
-    
-//    private void prepareBD(AbstractPanel pn_abs){
-//        if(pn_abs instanceof PnCuadros){
-//            if(comprobarDatosBD(pn_abs)){
-//              prepareCuadroBD(pn_abs);  
-//            }
-//           
-//        } else if(pn_abs instanceof PnGenerados){
-//            if(comprobarDatosBD(pn_abs)){
-//               prepareGeneradosBD(pn_abs); 
-//            }
-//            
-//            
-//        } else if(pn_abs instanceof PnMinutos){
-//            
-//            prepareMinutosBD(pn_abs);
-//        }
-//    }
-    
-    
-//    private void prepareArchivo(AbstractPanel pn_abs, String name_pn) {
-//        switch (name_pn) {
-//            case "cuadros":
-//                if (comprobarCuadroArchivo(pn_abs)) {
-//                  prepareCuadroArchivo(pn_abs);
-//                }
-//                break;
-//
-//            case "generados":
-//                if (comprobarPdf_Destino_ArchivoPdf(pn_abs)) {
-//                   prepareGeneradosArchivo(pn_abs);
-//                }
-//                break;
-//
-//            case "minutos":
-//                if (comprobarPdf_Destino_ArchivoPdf(pn_abs) && comprobarArchivoDestino(pn_abs)) {
-//                   prepareMinutosArchivo(pn_abs);
-//                }
-//                break;
-//        }
-//    }
-    
-    
-   
-    
-  
-//    private boolean comprobarDatosBD(AbstractPanel pn_abstract){
-//        if(!existeRutaBD(pn_abstract)){
-//               JOptionPane.showMessageDialog(pn_abs, "Error en la ruta de pdf o archivo pdf... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
-//               return false;
-//           } else {
-//               //comprobar si bd nueva
-//               if(pn_abstract.getArchivoNuevo() && !existeNombreBD(pn_abstract)){
-//                 JOptionPane.showMessageDialog(pn_abs, "Error nombre base de datos nueva... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
-//                 return false;
-//               } 
-//           }
-//              this.ruta_pdf = pn_abs.getFilePdf().getAbsolutePath();
-//              this.nombre_archivo_pdf = pn_abs.getFileArchivoPdf().getName();
-//              this.nombre_nueva_bd = pn_abs.getNombreNuevaBD();
-//        return true;
-//    }
-    
-    
-//    private boolean comprobarCuadroArchivo(AbstractPanel pn_abs) {
-//        if (pn_abs.isTodosArchivos()) {
-//            if (!existeRutaPdf_y_Destino(pn_abs)) {
-//                JOptionPane.showMessageDialog(pn_abs, "Error en la ruta de pdf o ruta destino... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
-//                return false;
-//            }
-//        } else {
-//            return comprobarPdf_Destino_ArchivoPdf(pn_abs);
-//        }
-//        return true;
-//    }
-    
-    
-//    private boolean comprobarPdf_Destino_ArchivoPdf(AbstractPanel pn_abs){
-//        if(!existeRutaPdf_y_Destino(pn_abs)){
-//            JOptionPane.showMessageDialog(pn_abs, "Error en la ruta de pdf o ruta destino... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
-//            return false;
-//        } else if(!pn_abs.getFileArchivoPdf().exists()){
-//            JOptionPane.showMessageDialog(pn_abs, "Error en la ruta archivo pdf... ", "!!!Error...", JOptionPane.ERROR_MESSAGE);
-//            return false;
-//        }
-//        this.ruta_pdf = pn_abs.getFilePdf().getAbsolutePath();
-//        this.nombre_archivo_pdf = pn_abs.getFileArchivoPdf().getName();
-//        this.ruta_destino = pn_abs.getFileDestino().getAbsolutePath();
-//        return true;
-//    }
-    
-    
-//    private boolean comprobarArchivoDestino(AbstractPanel pn_abs){
-//        File f = new File(pn_abs.getFileDestino().getAbsolutePath()+ "\\" + pn_abs.getNombreDestino());
-//        if (!f.exists()) {
-//                JOptionPane.showMessageDialog(pn_abs, "Nombre archivo destino no existe... ", "Error Init...", JOptionPane.ERROR_MESSAGE);
-//                return false;
-//            }
-//        this.nombre_destino = pn_abs.getNombreDestino();
-//        return true;
-//    }
-        
-    
-    private boolean existeRutaBD(AbstractPanel pn_abs){
-        return pn_abs.getFilePdf().exists() && pn_abs.getFileArchivoPdf().exists();
-    }
-    
-    
-    private boolean existeNombreBD(AbstractPanel pn_abs){
-        if(pn_abs.getNombreNuevaBD().length() <= 0){
-            return false;
+    private void setDatosEscritosBD(String datos_escritos){
+        if (datos_escritos != null && datos_escritos.length() > 0) {
+            fi.setTxtMensaje(datos_escritos);
         }
-        return true;
     }
-    
-    
-    private boolean existeRutaPdf_y_Destino(AbstractPanel pn_abs){
-        return pn_abs.getFilePdf().exists() && pn_abs.getFileDestino().exists();
-    }
-    
-    
-    
-    
-    
-    
-    
-//    private void prepareCuadroBD(AbstractPanel pn_abs){
-//        InitCuadros inc;
-//        String mensaje = "";
-//        if(pn_abs.getArchivoNuevo()){
-//          inc = new InitCuadros(ruta_pdf, nombre_archivo_pdf, nombre_nueva_bd);
-//          mensaje = inc.setNuevaBD();  
-//        } else {
-//          inc = new InitCuadros(ruta_pdf, nombre_archivo_pdf, pn_abs.getSelectBase());   
-//        }
-//        fi.setTxtMensaje(mensaje);
-//    }
-    
- 
-//    private void prepareCuadroArchivo(AbstractPanel pn_abs) {
-//        InitCuadros inc;
-//        String msg = "";
-//
-//        if (pn_abs.isTodosArchivos()) {
-//            inc = new InitCuadros(ruta_pdf, ruta_destino, pn_abs.getSinCabecera());
-//            msg = inc.setArchivosCuadros();
-//        } else {
-//            nombre_archivo_pdf = pn_abs.getFileArchivoPdf().getName();
-//            nombre_destino = this.comprobarNombreDestino(pn_abs.getNombreDestino(), nombre_archivo_pdf);
-//            inc = new InitCuadros(ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino, pn_abs.getSinCabecera());
-//            msg = inc.setArchivoCuadro();
-//        }
-//        this.setDatosEscritos(msg);
-//    }
-    
-    
-    private void prepareGeneradosBD(AbstractPanel pn_abs){
-        String mensaje = "";
-        
-        this.setDatosEscritos(mensaje);
-    }
-    
-    
-//    private void prepareGeneradosArchivo(AbstractPanel pn_abs) {
-//         InitGenerados ing;
-//         String msg = "";
-//        boolean archivo_nuevo = pn_abs.getArchivoNuevo();
-//       
-//        if(archivo_nuevo){
-//           nombre_destino = comprobarNombreDestino(pn_abs.getNombreDestino(), pn_abs.getFilePdf().getName());  
-//        } else if(comprobarArchivoDestino(pn_abs)){
-//           nombre_destino = pn_abs.getNombreDestino(); 
-//        }
-//          ing = new InitGenerados(ruta_pdf, nombre_archivo_pdf, ruta_destino, nombre_destino, archivo_nuevo);
-//          msg = ing.setArchivoGenerados();
-//          this.setDatosEscritos(msg);
-//    }
-    
-    
-    private void prepareMinutosBD(AbstractPanel pn_abs){
-        String mensaje = "";
-        
-        this.setDatosEscritos(mensaje);
-    }
-    
-    
-//    private void prepareMinutosArchivo(AbstractPanel pn_abs){
-//        InitMinutos inm;
-//        String msg = "";
-//        
-//        if(comprobarArchivoDestino(pn_abs)){
-//           nombre_destino = pn_abs.getNombreDestino();
-//           inm = new InitMinutos(ruta_pdf, nombre_archivo_pdf, ruta_destino);
-//           msg = inm.setActualizarArchivo(nombre_destino);
-//           this.setDatosEscritos(msg);
-//        }
-//    }
-    
-    
-    /**
-     * Si el nombre destino no es valido se crea uno basado en el nombre del pdf leido
-     * @param nombre_destino
-     * @param nombre_pdf
-     * @return 
-     */
-//    private String comprobarNombreDestino(String nombre_destino, String nombre_pdf){
-//        String nombre = "";
-//        if(nombre_destino == null || nombre_destino.trim().length() == 0 || !nombre_destino.contains(".txt")){
-//            String sub = nombre_pdf.substring(0, nombre_pdf.length()-4);
-//            nombre = nombre.concat("nuevo_").concat(sub).concat(".txt");
-//            return nombre;
-//        }
-//        return nombre_destino;
-//    }
-    
     
     
     
@@ -363,7 +242,6 @@ public class Init {
     
     
     public static void main(String[] args) {
-        
            new Init();
     }
 

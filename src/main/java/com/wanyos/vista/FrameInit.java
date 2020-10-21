@@ -6,10 +6,10 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import org.edisoncor.gui.button.ButtonAction;
 
 /**
- *
  * @author wanyos
  */
 public class FrameInit extends JFrame {
@@ -18,6 +18,7 @@ public class FrameInit extends JFrame {
     private int x;
     private int y;
     private AbstractPanel pn_abs;
+    private static boolean progreso = true;
     
     
     public FrameInit() {
@@ -30,6 +31,24 @@ public class FrameInit extends JFrame {
     }
 
     
+ 
+//    public static JProgressBar getBarra(){
+//        return barra_ps;
+//    }
+//    
+//    
+//    public static void setValueBarra(int v){
+//       barra_ps.setValue(v);
+//    }
+//    
+//    public static int getValueBarra(){
+//        return barra_ps.getValue();
+//    }
+//    
+//    public static void setVisibleBarra(boolean v){
+//        barra_ps.setVisible(v);
+//    }
+    
     public AbstractPanel getPnAbs() {
         return pn_abs;
     }
@@ -41,6 +60,7 @@ public class FrameInit extends JFrame {
     public void setTxtMensaje(String m) {
         this.txt_mensaje.append(m);
     }
+    
     
 
     private void setPanel(JPanel pn) {
@@ -198,14 +218,16 @@ public class FrameInit extends JFrame {
         pn_inf.add(pn_inf_izq);
 
         pn_inf_der.setBackground(new java.awt.Color(153, 153, 153));
+        pn_inf_der.setPreferredSize(new java.awt.Dimension(450, 127));
+        pn_inf_der.setLayout(new javax.swing.BoxLayout(pn_inf_der, javax.swing.BoxLayout.Y_AXIS));
 
         jScrollPane1.setBackground(new java.awt.Color(153, 153, 153));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         txt_mensaje.setEditable(false);
         txt_mensaje.setBackground(new java.awt.Color(153, 153, 153));
-        txt_mensaje.setColumns(55);
-        txt_mensaje.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
+        txt_mensaje.setColumns(70);
+        txt_mensaje.setFont(new java.awt.Font("Consolas", 3, 13)); // NOI18N
         txt_mensaje.setForeground(new java.awt.Color(255, 255, 255));
         txt_mensaje.setRows(6);
         txt_mensaje.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -310,5 +332,36 @@ public class FrameInit extends JFrame {
     private javax.swing.JTextArea txt_mensaje;
     // End of variables declaration//GEN-END:variables
 
+    
+    
+//    public static void initHilo() {
+//        Hilo hilo = new Hilo();
+//        hilo.start();
+//    }
+//    
+//    
+//    static class Hilo extends Thread {
+//       
+//        @Override
+//        public void run() {
+//            System.out.println("Crean worker en run...");
+//            Worker w = new Worker(barra_ps);
+//            w.execute();
+//            while (progreso) {
+//                try {
+//                    sleep(100);
+//                    System.out.println("Dentro del hilo...");
+//                    FrameInit.setValueBarra(FrameInit.getValueBarra() + 1);
+//                    if(FrameInit.getValueBarra() > 100){
+//                        progreso = false;
+//                    }
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(FrameInit.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+            
+//        }
+//    }
+//    
 
  }
